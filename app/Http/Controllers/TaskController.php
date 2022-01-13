@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Http\Requests\TaskRequest;
+use App\Models\Level;
+use App\Models\Project;
+use App\Models\User;
 
 class TaskController extends Controller
 {
@@ -14,7 +18,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        return view('tasks.index', [
+            'tasks' => Task::with(['project', 'level', 'user'])->paginate(4)
+        ]);
     }
 
     /**
@@ -24,18 +30,25 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('tasks.form', [
+            'state' => 'New',
+            'levels' => Level::orderBy('id')->get(['id', 'name']),
+            'projects' => Project::orderBy('id')->get(['id', 'name']),
+            'users' => User::orderBy('id')->get(['id', 'name'])
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\TaskRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        //
+        Task::create($request->validated());
+
+        return redirect()->route('tasks.index')->with('success', 'Data Saved');
     }
 
     /**
@@ -57,19 +70,27 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        return view('tasks.form', [
+            'state' => 'Update',
+            'levels' => Level::orderBy('id')->get(['id', 'name']),
+            'projects' => Project::orderBy('id')->get(['id', 'name']),
+            'users' => User::orderBy('id')->get(['id', 'name']),
+            'task' => $task
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\TaskRequest  $request
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
-        //
+        $task->update($request->validated());
+
+        return redirect()->route('tasks.index')->with('success', 'Data Updated');
     }
 
     /**

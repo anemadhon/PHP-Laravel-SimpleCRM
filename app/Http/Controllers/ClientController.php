@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\ClientType;
 use Illuminate\Http\Request;
+use App\Http\Requests\ClientRequest;
 
 class ClientController extends Controller
 {
@@ -14,7 +16,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        return view('clients.index', [
+            'clients' => Client::withCount('projects')->paginate(4)
+        ]);
     }
 
     /**
@@ -24,18 +28,23 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return view('clients.form', [
+            'state' => 'New',
+            'types' => ClientType::orderBy('id')->get(['id', 'name'])
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ClientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientRequest $request)
     {
-        //
+        Client::create($request->validated());
+
+        return redirect()->route('clients.index')->with('success', 'Data Saved');
     }
 
     /**
@@ -57,19 +66,25 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view('clients.form', [
+            'state' => 'Update',
+            'types' => ClientType::orderBy('id')->get(['id', 'name']),
+            'client' => $client 
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ClientRequest  $request
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(ClientRequest $request, Client $client)
     {
-        //
+        $client->update($request->validated());
+
+        return redirect()->route('clients.index')->with('success', 'Data Updated');
     }
 
     /**

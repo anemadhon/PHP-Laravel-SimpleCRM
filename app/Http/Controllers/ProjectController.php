@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectRequest;
+use App\Models\Client;
+use App\Models\Level;
 use App\Models\Project;
+use App\Models\ProjectState;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -14,7 +18,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        return view('projects.index', [
+            'projects' => Project::with(['state', 'level', 'client'])->paginate(4)
+        ]);
     }
 
     /**
@@ -24,18 +30,25 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('projects.form', [
+            'state' => 'New',
+            'clients' => Client::orderBy('id')->get(['id', 'name']),
+            'states' => ProjectState::orderBy('id')->get(['id', 'name']),
+            'levels' => Level::orderBy('id')->get(['id', 'name'])
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ProjectRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProjectRequest $request)
     {
-        //
+        Project::create($request->validated());
+
+        return redirect()->route('projects.index')->with('success', 'Data Saved');
     }
 
     /**
@@ -57,7 +70,13 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('projects.form', [
+            'state' => 'Update',
+            'clients' => Client::orderBy('id')->get(['id', 'name']),
+            'states' => ProjectState::orderBy('id')->get(['id', 'name']),
+            'levels' => Level::orderBy('id')->get(['id', 'name']),
+            'project' => $project
+        ]);
     }
 
     /**
@@ -69,7 +88,9 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $project->update($request->validated());
+
+        return redirect()->route('projects.index')->with('success', 'Data Updated');
     }
 
     /**

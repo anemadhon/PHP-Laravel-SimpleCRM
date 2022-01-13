@@ -20,6 +20,8 @@ Route::permanentRedirect('/register', 'login');
 
 Route::group(['middleware' => 'auth'], function()
 {
+    Route::get('dashboard', \App\Http\Controllers\DashboardController::class)->name('dashboard');
+
     Route::group([
         'prefix' => 'admin',
         'as' => 'admin.',
@@ -43,9 +45,17 @@ Route::group(['middleware' => 'auth'], function()
         ])->except(['show', 'destroy']);
     });
 
+    Route::resource('clients', \App\Http\Controllers\ClientController::class)->scoped([
+        'client' => 'slug'
+    ])->except(['show', 'destroy']);
+    Route::resource('projects', \App\Http\Controllers\ProjectController::class)->scoped([
+        'project' => 'slug'
+    ])->except(['show', 'destroy']);
+    Route::resource('tasks', \App\Http\Controllers\TaskController::class)->scoped([
+        'task' => 'slug'
+    ])->except(['show', 'destroy']);
+    
     Route::view('about', 'about')->name('about');
-
-    Route::get('dashboard', \App\Http\Controllers\DashboardController::class)->name('dashboard');
 
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
 

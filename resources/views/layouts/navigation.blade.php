@@ -72,7 +72,7 @@
                     </li>
                     
                     <li class="items-center">
-                        <x-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
+                        <x-nav-link href="{{ route('clients.index') }}" :active="request()->routeIs('clients.*')">
                             <x-slot name="icon">
                                 <i class="far fa-handshake mr-2 text-sm opacity-75"></i>
                             </x-slot>
@@ -83,7 +83,7 @@
                 
                 @canany(['manage-apps', 'manage-department', 'manage-teams', 'manage-tasks'])
                     <li class="items-center">
-                        <x-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
+                        <x-nav-link href="{{ route('projects.index') }}" :active="request()->routeIs('projects.*')">
                             <x-slot name="icon">
                                 <i class="fas fa-briefcase mr-2 text-sm opacity-75"></i>
                             </x-slot>
@@ -92,7 +92,7 @@
                     </li>
                     
                     <li class="items-center">
-                        <x-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
+                        <x-nav-link href="{{ route('tasks.index') }}" :active="request()->routeIs('tasks.*')">
                             <x-slot name="icon">
                                 <i class="fas fa-tasks mr-2 text-sm opacity-75"></i>
                             </x-slot>
