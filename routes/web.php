@@ -28,32 +28,49 @@ Route::group(['middleware' => 'auth'], function()
         'middleware' => \App\Http\Middleware\IsAdminMiddleware::class
     ], function()
     {
-        Route::resource('client/types', \App\Http\Controllers\Admin\ClientTypeController::class)->scoped([
-            'type' => 'slug'
-        ])->except(['show', 'destroy']);
-        Route::resource('project/states', \App\Http\Controllers\Admin\ProjectStateController::class)->scoped([
-            'state' => 'slug'
-        ])->except(['show', 'destroy']);
-        Route::resource('levels', \App\Http\Controllers\Admin\LevelController::class)->scoped([
-            'level' => 'slug'
-        ])->except(['show', 'destroy']);
-        Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class)->scoped([
-            'role' => 'slug'
-        ])->except(['show', 'destroy']);
-        Route::resource('skills', \App\Http\Controllers\Admin\SkillController::class)->scoped([
-            'skill' => 'slug'
-        ])->except(['show', 'destroy']);
+        Route::resource('client/types', \App\Http\Controllers\Admin\ClientTypeController::class)
+                ->scoped([
+                    'type' => 'slug'
+                ])->except(['show', 'destroy']);
+
+        Route::resource('project/states', \App\Http\Controllers\Admin\ProjectStateController::class)
+                ->scoped([
+                    'state' => 'slug'
+                ])->except(['show', 'destroy']);
+
+        Route::resource('levels', \App\Http\Controllers\Admin\LevelController::class)
+                ->scoped([
+                    'level' => 'slug'
+                ])->except(['show', 'destroy']);
+
+        Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class)
+                ->scoped([
+                    'role' => 'slug'
+                ])->except(['show', 'destroy']);
+
+        Route::resource('skills', \App\Http\Controllers\Admin\SkillController::class)
+                ->scoped([
+                    'skill' => 'slug'
+                ])->except(['show', 'destroy']);
     });
 
-    Route::resource('clients', \App\Http\Controllers\ClientController::class)->scoped([
-        'client' => 'slug'
-    ])->except(['show', 'destroy']);
-    Route::resource('projects', \App\Http\Controllers\ProjectController::class)->scoped([
-        'project' => 'slug'
-    ])->except(['show', 'destroy']);
-    Route::resource('tasks', \App\Http\Controllers\TaskController::class)->scoped([
-        'task' => 'slug'
-    ])->except(['show', 'destroy']);
+    Route::get('clients/{client:slug}/projects', \App\Http\Controllers\ClientProjectController::class)
+            ->name('client.projects');
+
+    Route::resource('clients', \App\Http\Controllers\ClientController::class)
+            ->scoped([
+                'client' => 'slug'
+            ])->except(['show', 'destroy']);
+
+    Route::resource('projects', \App\Http\Controllers\ProjectController::class)
+            ->scoped([
+                'project' => 'slug'
+            ])->except(['show', 'destroy']);
+
+    Route::resource('tasks', \App\Http\Controllers\TaskController::class)
+            ->scoped([
+                'task' => 'slug'
+            ])->except(['show', 'destroy']);
     
     Route::view('about', 'about')->name('about');
 
