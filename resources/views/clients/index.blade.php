@@ -70,8 +70,8 @@
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                 {{ $client->type->name }}
                             </td>   
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                {{ $client->projects_count }}
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center">
+                                <a href="{{ route('client.projects', ['client' => $client]) }}" class="hover:underline">{{ $client->projects_count }}</a>
                             </td>
                             <td class="text-center border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                 <a href="{{ route('clients.edit', ['client' => $client]) }}">

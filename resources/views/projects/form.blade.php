@@ -71,7 +71,7 @@
                                 <select name="client_id" id="owner" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select Owner</option>
                                     @foreach ($clients as $client)
-                                        <option value="{{ $client->id }}" {{ $state === 'Update' && $project->client_id === $client->id ? 'selected' : '' }}>{{ $client->name }}</option>
+                                        <option value="{{ $client->id }}" {{ ($state === 'Update' && $project->client_id === $client->id) || old('client_id') === $client->id ? 'selected' : '' }}>{{ $client->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -82,7 +82,7 @@
                                 <select name="level_id" id="level" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select Level</option>
                                     @foreach ($levels as $level)
-                                        <option value="{{ $level->id }}" {{ $state === 'Update' && $project->level_id === $level->id ? 'selected' : '' }}>{{ $level->name }}</option>
+                                        <option value="{{ $level->id }}" {{ ($state === 'Update' && $project->level_id === $level->id) || old('level_id') === $level->id ? 'selected' : '' }}>{{ $level->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -93,9 +93,29 @@
                                 <select name="state_id" id="state" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select State</option>
                                     @foreach ($states as $project_state)
-                                        <option value="{{ $project_state->id }}" {{ $state === 'Update' && $project->state_id === $project_state->id ? 'selected' : '' }}>{{ $project_state->name }}</option>
+                                        <option value="{{ $project_state->id }}" {{ ($state === 'Update' && $project->state_id === $project_state->id) || old('state_id') === $project_state->id ? 'selected' : '' }}>{{ $project_state->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="w-full px-4">
+                            <div class="relative w-full mb-3">
+                                <x-label for="attachment" :value="__('Attachments')"/>
+                                <input
+                                        type="file"
+                                        placeholder="{{ __('Attachments') }}"
+                                        name="attachment[]"
+                                        id="attachment"
+                                        class="p-1 block
+                                        w-full
+                                        text-gray-700
+                                        bg-white bg-clip-padding
+                                        border border-solid border-gray-300
+                                        rounded
+                                        focus:bg-white focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        accept="{{ $mimes }}"
+                                        multiple
+                                />
                             </div>
                         </div>
                     </div>

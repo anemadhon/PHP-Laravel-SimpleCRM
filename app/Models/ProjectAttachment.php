@@ -13,6 +13,11 @@ class ProjectAttachment extends Model
         'path', 'project_id'
     ];
 
+    const MIME_TYPES = [
+        '.doc', '.docx', '.pdf',
+        '.png', '.jpg', 'jpeg'
+    ];
+
     public function project()
     {
         return $this->belongsTo(Project::class);

@@ -16,14 +16,12 @@ class DashboardService
         $statistic = [];
 
         if ($roleId === User::IS_ADMIN) {
-            $statistic['roles'] = Role::select(['id', 'name'])->withCount('users')->orderBy('users_count', 'desc')->get();
+            $statistic['roles'] = Role::select(['id', 'name'])->withCount('users')->orderBy('id')->get();
         }
         
         if ($roleId === User::IS_ADMIN || $roleId === User::IS_MGR || $roleId === User::IS_SALES) {
             $statistic['user_idle'] = User::developmentTeam()->withCount('projects')->having('projects_count', 0)->count();
             $statistic['user_in_project'] = User::developmentTeam()->withCount('projects')->having('projects_count', '<>', 0)->count();
-            /* $statistic['user_idle'] = 1;
-            $statistic['user_in_project'] = 1; */
             $statistic['types'] = ClientType::select(['id', 'name'])->withCount('clients')->orderBy('clients_count', 'desc')->get();
         }
         

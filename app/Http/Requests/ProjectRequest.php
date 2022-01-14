@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ProjectAttachment;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -25,6 +26,7 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         $unique = $this->isMethod('PUT') ? Rule::unique('projects')->ignore($this->project) : '';
+        $mimes = implode(',', str_replace('.', '', ProjectAttachment::MIME_TYPES));
 
         return [
             'name' => ['required', 'string', 'max:255', $unique], 
@@ -33,7 +35,9 @@ class ProjectRequest extends FormRequest
             'ended_at' => ['required'],
             'state_id' => ['required', 'exists:project_states,id'], 
             'level_id' => ['required', 'exists:levels,id'],
-            'client_id' => ['required', 'exists:clients,id']
+            'client_id' => ['required', 'exists:clients,id'],
+            'attachment' => ['image'],
+            'attachment.*' => ['max:2048', 'mimes:png,jpg,jpeg']
         ];
     }
 

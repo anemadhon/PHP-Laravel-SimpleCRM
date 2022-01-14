@@ -6,6 +6,7 @@ use App\Http\Requests\ProjectRequest;
 use App\Models\Client;
 use App\Models\Level;
 use App\Models\Project;
+use App\Models\ProjectAttachment;
 use App\Models\ProjectState;
 use Illuminate\Http\Request;
 
@@ -32,6 +33,7 @@ class ProjectController extends Controller
     {
         return view('projects.form', [
             'state' => 'New',
+            'mimes' => implode(',', ProjectAttachment::MIME_TYPES),
             'clients' => Client::orderBy('id')->get(['id', 'name']),
             'states' => ProjectState::orderBy('id')->get(['id', 'name']),
             'levels' => Level::orderBy('id')->get(['id', 'name'])
@@ -72,6 +74,7 @@ class ProjectController extends Controller
     {
         return view('projects.form', [
             'state' => 'Update',
+            'mimes' => implode(',', ProjectAttachment::MIME_TYPES),
             'clients' => Client::orderBy('id')->get(['id', 'name']),
             'states' => ProjectState::orderBy('id')->get(['id', 'name']),
             'levels' => Level::orderBy('id')->get(['id', 'name']),
