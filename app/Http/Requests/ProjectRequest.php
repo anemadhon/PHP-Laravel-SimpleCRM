@@ -26,7 +26,6 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         $unique = $this->isMethod('PUT') ? Rule::unique('projects')->ignore($this->project) : '';
-        $mimes = implode(',', str_replace('.', '', ProjectAttachment::MIME_TYPES));
 
         return [
             'name' => ['required', 'string', 'max:255', $unique], 
@@ -36,8 +35,8 @@ class ProjectRequest extends FormRequest
             'state_id' => ['required', 'exists:project_states,id'], 
             'level_id' => ['required', 'exists:levels,id'],
             'client_id' => ['required', 'exists:clients,id'],
-            'attachment' => ['image'],
-            'attachment.*' => ['max:2048', 'mimes:png,jpg,jpeg']
+            'flag' => ['string'],
+            'attachment.*' => ['max:2048', "mimes:{$this->mimes_type}"]
         ];
     }
 
@@ -50,6 +49,15 @@ class ProjectRequest extends FormRequest
             'level_id.exists' => 'Please Select Project Levels Correctly',
             'client_id.required' => 'Please Select Project Owner',
             'client_id.exists' => 'Please Select Project Owner Correctly',
+            'attachment.*.max' => 'Attachment must not be greater than 2048 kilobytes',
+            'attachment.*.mimes' => "Attachment just allowed {$this->mimes_type}",
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'mimes_type' => implode(',', str_replace('.', '', ProjectAttachment::MIME_TYPES))
+        ]);
     }
 }

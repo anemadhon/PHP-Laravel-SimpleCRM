@@ -8,6 +8,7 @@ use App\Models\Level;
 use App\Models\Project;
 use App\Models\ProjectAttachment;
 use App\Models\ProjectState;
+use App\Services\ProjectService;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -48,7 +49,11 @@ class ProjectController extends Controller
      */
     public function store(ProjectRequest $request)
     {
-        Project::create($request->validated());
+        $project = Project::create($request->validated());
+
+        if ($request->hasFile('attachment')) {
+            (new ProjectService())->attachment($request->file('attachment'), $project);
+        }
 
         return redirect()->route('projects.index')->with('success', 'Data Saved');
     }
@@ -85,13 +90,17 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ProjectRequest  $request
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(ProjectRequest $request, Project $project)
     {
         $project->update($request->validated());
+        
+        if ($request->hasFile('attachment')) {
+            (new ProjectService())->attachment($request->file('attachment'), $project, $request->flag);
+        }
 
         return redirect()->route('projects.index')->with('success', 'Data Updated');
     }

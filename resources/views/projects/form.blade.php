@@ -14,7 +14,7 @@
 
                 <x-errors class="mb-4" :errors="$errors" />
 
-                <form action="{{ $state === 'Update' ? route('projects.update', ['project' => $project]) : route('projects.store') }}" method="POST">
+                <form action="{{ $state === 'Update' ? route('projects.update', ['project' => $project]) : route('projects.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @if ($state === 'Update')
                         @method('PUT')
@@ -101,6 +101,29 @@
                         <div class="w-full px-4">
                             <div class="relative w-full mb-3">
                                 <x-label for="attachment" :value="__('Attachments')"/>
+                                @if ($state === 'Update' && isset($project))
+                                    <x-label class="inline-flex items-center text-gray-600">
+                                        <x-slot name="value">
+                                            <input type="radio"
+                                                id="flag"
+                                                name="flag"
+                                                class="mt-1 ml-2"
+                                                value="edit"
+                                                checked>
+                                            <span class="ml-2 text-gray-600">Replace</span>
+                                        </x-slot>
+                                    </x-label>
+                                    <x-label class="inline-flex items-center text-gray-600">
+                                        <x-slot name="value">
+                                            <input type="radio"
+                                                id="flag"
+                                                name="flag"
+                                                class="mt-1 ml-1"
+                                                value="add">
+                                            <span class="ml-2 text-gray-600">Add</span>
+                                        </x-slot>
+                                    </x-label>
+                                @endif
                                 <input
                                         type="file"
                                         placeholder="{{ __('Attachments') }}"

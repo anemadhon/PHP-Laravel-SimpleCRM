@@ -15,7 +15,7 @@ class ProjectAttachment extends Model
 
     const MIME_TYPES = [
         '.doc', '.docx', '.pdf',
-        '.png', '.jpg', 'jpeg'
+        '.png', '.jpg', '.jpeg'
     ];
 
     public function project()
