@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
 use App\Models\Level;
 use App\Models\Project;
+use App\Models\ProjectState;
 use App\Models\User;
 
 class TaskController extends Controller
@@ -19,7 +20,7 @@ class TaskController extends Controller
     public function index()
     {
         return view('tasks.index', [
-            'tasks' => Task::with(['project', 'level', 'user'])->paginate(4)
+            'tasks' => Task::with(['project', 'level', 'state', 'user'])->paginate(4)
         ]);
     }
 
@@ -33,6 +34,7 @@ class TaskController extends Controller
         return view('tasks.form', [
             'state' => 'New',
             'levels' => Level::orderBy('id')->get(['id', 'name']),
+            'states' => ProjectState::orderBy('id')->get(['id', 'name']),
             'projects' => Project::orderBy('id')->get(['id', 'name']),
             'users' => User::orderBy('id')->get(['id', 'name'])
         ]);
@@ -73,6 +75,7 @@ class TaskController extends Controller
         return view('tasks.form', [
             'state' => 'Update',
             'levels' => Level::orderBy('id')->get(['id', 'name']),
+            'states' => ProjectState::orderBy('id')->get(['id', 'name']),
             'projects' => Project::orderBy('id')->get(['id', 'name']),
             'users' => User::orderBy('id')->get(['id', 'name']),
             'task' => $task

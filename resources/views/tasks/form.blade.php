@@ -58,6 +58,17 @@
                         </div>
                         <div class="w-full px-4">
                             <div class="relative w-full mb-3">
+                                <x-label for="state" :value="__('State')"/>
+                                <select name="state_id" id="state" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                    <option value="">Select State</option>
+                                    @foreach ($states as $state)
+                                        <option value="{{ $state->id }}" {{ ($state === 'Update' && $task->state_id === $state->id) || old('state_id') === $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w-full px-4">
+                            <div class="relative w-full mb-3">
                                 <x-label for="user" :value="__('Assigned To')"/>
                                 <select name="assigned_to" id="user" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select User</option>

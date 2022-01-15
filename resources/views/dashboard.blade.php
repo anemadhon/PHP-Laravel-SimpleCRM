@@ -14,7 +14,7 @@
         <div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
             <div class="flex flex-wrap p-4">
                 @can('manage-apps')
-                    <div class="w-full w-full xl:w-1/3 md:w-1/2 p-4">
+                    <div class="w-full xl:w-1/3 md:w-1/2 p-4">
                         <div class="border border-gray-400 p-6 rounded-lg">
                             <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

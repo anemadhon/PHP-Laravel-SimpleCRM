@@ -26,6 +26,7 @@ class TaskRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'], 
             'level_id' => ['required', 'exists:levels,id'],
+            'state_id' => ['required', 'exists:project_states,id'],
             'project_id' => ['required', 'exists:projects,id'],
             'assigned_to' => ['required', 'exists:users,id']
         ];
@@ -36,6 +37,8 @@ class TaskRequest extends FormRequest
         return [
             'level_id.required' => 'Please Select Project Levels',
             'level_id.exists' => 'Please Select Project Levels Correctly',
+            'state_id.required' => 'Please Select Project states',
+            'state_id.exists' => 'Please Select Project states Correctly',
             'project_id.required' => 'Please Select Project',
             'project_id.exists' => 'Please Select Project Correctly',
             'assigned_to.required' => 'Please Select User',

@@ -36,6 +36,11 @@ class Task extends Model
     {
         return $this->belongsTo(Level::class);
     }
+    
+    public function state()
+    {
+        return $this->belongsTo(ProjectState::class);
+    }
 
     public function sluggable(): array
     {
