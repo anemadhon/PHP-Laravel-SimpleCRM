@@ -8,8 +8,8 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::notAdmin()->with('role')->paginate(6);
-
-        return view('users.index', compact('users'));
+        return view('users.index', [
+            'users' => User::notAdmin()->with(['role', 'skills', 'projects'])->paginate(6)
+        ]);
     }
 }
