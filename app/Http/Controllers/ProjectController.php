@@ -66,7 +66,14 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        $details = $project->load(['attachments', 'users', 'users.role', 'tasks', 'tasks.level']);
+        
+        return view('projects.show', [
+            'owner' => $project->name,
+            'attachments' => $details->attachments,
+            'teams' => $details->users,
+            'tasks' => $details->tasks
+        ]);
     }
 
     /**

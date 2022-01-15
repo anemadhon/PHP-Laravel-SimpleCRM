@@ -65,7 +65,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::resource('projects', \App\Http\Controllers\ProjectController::class)
             ->scoped([
                 'project' => 'slug'
-            ])->except(['show', 'destroy']);
+            ])->except('destroy');
 
     Route::resource('tasks', \App\Http\Controllers\TaskController::class)
             ->scoped([
