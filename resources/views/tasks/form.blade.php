@@ -73,7 +73,7 @@
                                 <select name="assigned_to" id="user" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select User</option>
                                     @foreach ($users as $user)
-                                        <option value="{{ $user->id }}" {{ ($state === 'Update' && $task->assigned_to === $user->id) || old('user_id') === $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                                        <option value="{{ $user->id }}" {{ ($state === 'Update' && $task->assigned_to === $user->id) || old('user_id') === $user->id ? 'selected' : '' }}>{{ $user->name }} - {{ $user->role->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

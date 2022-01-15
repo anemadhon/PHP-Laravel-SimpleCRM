@@ -34,9 +34,12 @@ class TaskController extends Controller
         return view('tasks.form', [
             'state' => 'New',
             'levels' => Level::orderBy('id')->get(['id', 'name']),
-            'states' => ProjectState::orderBy('id')->get(['id', 'name']),
+            'states' => ProjectState::when(in_array(auth()->user()->role_id, User::IS_DEV_TEAM), function($query)
+            {
+                return $query->forDevelopmentTeam();
+            })->orderBy('id')->get(['id', 'name']),
             'projects' => Project::orderBy('id')->get(['id', 'name']),
-            'users' => User::orderBy('id')->get(['id', 'name'])
+            'users' => User::notAdmin()->notMgr()->with('role')->orderBy('id')->get(['id', 'name', 'role_id'])
         ]);
     }
 

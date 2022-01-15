@@ -15,6 +15,11 @@ class ProjectState extends Model
         'description'
     ];
 
+    public function scopeForDevelopmentTeam($query)
+    {
+        return $query->whereIn('id', [2,3,4,7]);
+    }
+
     public function projects()
     {
         return $this->hasMany(Project::class, 'state_id');

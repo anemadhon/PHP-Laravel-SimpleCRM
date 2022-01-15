@@ -14,7 +14,7 @@ class Task extends Model
     protected $fillable = [
         'name', 'slug', 'level_id',
         'project_id', 'created_by',
-        'assigned_to'
+        'state_id', 'assigned_to'
     ];
 
     public function subs()
@@ -39,7 +39,7 @@ class Task extends Model
     
     public function state()
     {
-        return $this->belongsTo(ProjectState::class);
+        return $this->belongsTo(ProjectState::class, 'state_id');
     }
 
     public function sluggable(): array
