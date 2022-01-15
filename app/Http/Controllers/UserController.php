@@ -12,4 +12,14 @@ class UserController extends Controller
             'users' => User::notAdmin()->with(['role', 'skills', 'projects'])->paginate(6)
         ]);
     }
+
+    public function projects(string $username)
+    {
+        $projects = User::with('projects')->where('username', $username)->firstOrFail();
+
+        return view('users.project', [
+            'user' => $projects->name,
+            'projects' => $projects->projects()->with(['state', 'level'])->paginate(4)
+        ]);
+    }
 }

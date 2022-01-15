@@ -6,7 +6,7 @@ use App\Models\Client;
 
 class ClientProjectController extends Controller
 {
-    public function __invoke($slug)
+    public function __invoke(string $slug)
     {
         $client = Client::with(['projects'])->where('slug', $slug)->firstOrFail();
         

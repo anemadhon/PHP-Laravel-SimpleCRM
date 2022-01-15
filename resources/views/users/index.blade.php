@@ -52,7 +52,12 @@
                                     {{ $user->role->name }}
                                 </td>
                                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center">
-                                    {{ $user->projects->count() === 0 ? 'Idle' : 'In Projects' }}
+                                    @if ($user->projects->count() === 0)
+                                        Idle
+                                    @endif
+                                    @if ($user->projects->count() > 0)
+                                        <a href="{{ route('users.projects', ['user' => $user]) }}" class="hover:underline">In Projects</a>
+                                    @endif
                                 </td>
                                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                     <ul class="list-disc">

@@ -75,6 +75,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::view('about', 'about')->name('about');
 
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+    Route::get('users/{user:username}/projects', [\App\Http\Controllers\UserController::class, 'projects'])->name('users.projects');
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
