@@ -17,6 +17,11 @@ class Project extends Model
         'client_id'
     ];
 
+    protected $casts = [
+        'started_at' => 'datetime',
+        'ended_at' => 'datetime',
+    ];
+
     public function tasks()
     {
         return $this->hasMany(Task::class);
