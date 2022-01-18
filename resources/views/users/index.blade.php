@@ -52,11 +52,19 @@
                                     {{ $user->role->name }}
                                 </td>
                                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center">
-                                    @if ($user->projects->count() === 0)
-                                        Idle
+                                    @if ($user->role_id === $is_mgr)
+                                        {{ $user->role->name }}
                                     @endif
-                                    @if ($user->projects->count() > 0)
-                                        <a href="{{ route('users.projects', ['user' => $user]) }}" class="hover:underline">In Projects</a>
+                                    @if ($user->role_id === $is_sales)
+                                        <a href="{{ route('users.tasks', ['user' => $user]) }}" class="hover:underline">In Project</a>
+                                    @endif
+                                    @if (!in_array($user->role_id, [$is_mgr, $is_sales]))
+                                        @if ($user->projects->count() === 0)
+                                            Idle
+                                        @endif
+                                        @if ($user->projects->count() > 0)
+                                            <a href="{{ route('users.projects', ['user' => $user]) }}" class="hover:underline">In Projects</a>
+                                        @endif
                                     @endif
                                 </td>
                                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">

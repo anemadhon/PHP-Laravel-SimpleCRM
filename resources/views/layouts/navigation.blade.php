@@ -63,7 +63,7 @@
 
                 @canany(['manage-apps', 'manage-department', 'manage-clients'])
                     <li class="items-center">
-                        <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
+                        <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
                             <x-slot name="icon">
                                 <i class="fas fa-users mr-2 text-sm opacity-75"></i>
                             </x-slot>

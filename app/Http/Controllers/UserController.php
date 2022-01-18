@@ -9,17 +9,25 @@ class UserController extends Controller
     public function index()
     {
         return view('users.index', [
-            'users' => User::notAdmin()->with(['role', 'skills', 'projects'])->paginate(6)
+            'users' => User::notAdmin()->with(['role', 'skills', 'projects', 'tasks'])->paginate(6),
+            'is_mgr' => User::IS_MGR,
+            'is_sales' => User::IS_SALES
         ]);
     }
 
-    public function projects(string $username)
+    public function projects(User $user)
     {
-        $projects = User::with('projects')->where('username', $username)->firstOrFail();
-
         return view('users.project', [
-            'user' => $projects->name,
-            'projects' => $projects->projects()->with(['state', 'level'])->paginate(4)
+            'user' => $user->name,
+            'projects' => $user->projects()->with(['state', 'level'])->paginate(4)
+        ]);
+    }
+    
+    public function tasks(User $user)
+    {
+        return view('users.task', [
+            'user' => $user->name,
+            'tasks' => $user->tasks()->with(['state', 'level', 'project', 'project.client'])->paginate(4)
         ]);
     }
 }
