@@ -20,6 +20,8 @@ Route::permanentRedirect('/register', 'login');
 
 Route::group(['middleware' => 'auth'], function()
 {
+    Route::view('about', 'about')->name('about');
+
     Route::get('dashboard', \App\Http\Controllers\DashboardController::class)->name('dashboard');
 
     Route::group([
@@ -55,7 +57,18 @@ Route::group(['middleware' => 'auth'], function()
     });
 
     Route::get('clients/{client:slug}/projects', \App\Http\Controllers\ClientProjectController::class)
-            ->name('client.projects');
+            ->name('clients.projects');
+
+    Route::resource('projects.tasks', \App\Http\Controllers\ProjectTaskController::class)
+            ->scoped([
+                'project' => 'slug',
+                'task' => 'slug'
+            ])->except(['show', 'destroy']);
+    
+    Route::resource('projects.teams', \App\Http\Controllers\ProjectTeamController::class)
+            ->scoped([
+                'project' => 'slug'
+            ])->only(['index', 'create', 'store']);
 
     Route::resource('clients', \App\Http\Controllers\ClientController::class)
             ->scoped([
@@ -71,11 +84,16 @@ Route::group(['middleware' => 'auth'], function()
             ->scoped([
                 'task' => 'slug'
             ])->except(['show', 'destroy']);
-    
-    Route::view('about', 'about')->name('about');
 
-    Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
-    Route::get('users/{user:username}/projects', [\App\Http\Controllers\UserController::class, 'projects'])->name('users.projects');
+    Route::group([
+        'prefix' => 'users',
+        'as' => 'users.'
+    ], function()
+    {
+        Route::get('/', [\App\Http\Controllers\UserController::class, 'index'])->name('index');
+        Route::get('{user:username}/projects', [\App\Http\Controllers\UserController::class, 'projects'])->name('projects');
+        Route::get('{user:username}/tasks', [\App\Http\Controllers\UserController::class, 'tasks'])->name('tasks');
+    });
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');

@@ -6,10 +6,8 @@ use App\Models\Client;
 
 class ClientProjectController extends Controller
 {
-    public function __invoke(string $slug)
+    public function __invoke(Client $client)
     {
-        $client = Client::with(['projects'])->where('slug', $slug)->firstOrFail();
-        
         return view('clients.project', [
             'owner' => $client->name,
             'projects' => $client->projects()->with(['state', 'level'])->paginate(4)

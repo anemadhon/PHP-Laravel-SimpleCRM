@@ -24,6 +24,11 @@ class ProjectState extends Model
     {
         return $this->hasMany(Project::class, 'state_id');
     }
+    
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'state_id');
+    }
 
     public function sluggable(): array
     {

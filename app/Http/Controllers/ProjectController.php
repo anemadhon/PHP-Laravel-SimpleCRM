@@ -21,7 +21,7 @@ class ProjectController extends Controller
     public function index()
     {
         return view('projects.index', [
-            'projects' => Project::with(['state', 'level', 'client'])->paginate(4)
+            'projects' => Project::with(['state', 'level', 'client'])->withCount('tasks')->paginate(4)
         ]);
     }
 
