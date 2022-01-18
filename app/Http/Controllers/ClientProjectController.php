@@ -10,7 +10,7 @@ class ClientProjectController extends Controller
     {
         return view('clients.project', [
             'owner' => $client->name,
-            'projects' => $client->projects()->with(['state', 'level'])->paginate(4)
+            'projects' => $client->projects()->with(['state', 'level'])->withCount('tasks')->paginate(4)
         ]);
     }
 }

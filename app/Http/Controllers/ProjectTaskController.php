@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProjectTaskController extends Controller
@@ -11,7 +12,7 @@ class ProjectTaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Project $project)
     {
         return view('projects.task', [
             'project' => $project->name,
