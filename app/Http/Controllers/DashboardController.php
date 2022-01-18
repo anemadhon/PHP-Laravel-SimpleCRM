@@ -10,12 +10,13 @@ class DashboardController extends Controller
     public function __invoke()
     {
         $isPM = auth()->user()->role_id === User::IS_PM;
+        $isSales = auth()->user()->role_id === User::IS_SALES;
         $isDevTeam = in_array(auth()->user()->role_id, User::IS_DEV_TEAM);
 
         return view('dashboard', [
             'dashboard' => (new DashboardService())->statistic(auth()->user()->role_id),
             'your_projects' => ($isPM || $isDevTeam) ? auth()->user()->projects : null,
-            'your_tasks' => ($isPM || $isDevTeam) ? auth()->user()->tasks : null
+            'your_tasks' => ($isPM || $isDevTeam || $isSales) ? auth()->user()->tasks : null
         ]);
     }
 }

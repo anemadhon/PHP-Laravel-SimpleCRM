@@ -26,7 +26,8 @@ class DashboardService
         }
         
         if ($roleId === User::IS_ADMIN || $roleId === User::IS_MGR || $roleId === User::IS_SALES || $roleId === User::IS_PM) {
-            $statistic['states'] = ProjectState::select(['id', 'name'])->withCount('projects')->orderBy('projects_count', 'desc')->get();
+            $statistic['state_projects'] = ProjectState::select(['id', 'name'])->withCount('projects')->orderBy('projects_count', 'desc')->get();
+            $statistic['state_tasks'] = ProjectState::select(['id', 'name'])->withCount('tasks')->orderBy('tasks_count', 'desc')->get();
         }
 
         if ($roleId === User::IS_ADMIN || $roleId === User::IS_MGR || $roleId === User::IS_PM) {
