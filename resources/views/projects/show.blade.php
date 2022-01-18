@@ -65,7 +65,7 @@
                         <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
                             @foreach ($attachments as $attachment)
                                 <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
-                                    <td class="py-1">{{ $attachment->path }}</td>
+                                    <td class="py-1">{{ $attachment->filename }}</td>
                                 </tr>
                             @endforeach
                         </table>

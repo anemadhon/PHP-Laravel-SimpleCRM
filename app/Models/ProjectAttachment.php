@@ -22,4 +22,9 @@ class ProjectAttachment extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function getFIlenameAttribute()
+    {
+        return last(explode('/', $this->path));
+    }
 }
