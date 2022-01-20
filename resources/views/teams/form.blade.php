@@ -28,7 +28,7 @@
                         <div class="w-full px-4">
                             <div class="relative w-full mb-3">
                                 <x-label for="pm" :value="__('Project Manager')"/>
-                                <select name="pm[]" id="pm" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required multiple>
+                                <select name="pm" id="pm" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select User</option>
                                     @foreach ($users_pm as $pm)
                                         <option value="{{ $pm->id }}" {{ old('assigned_to') === $pm->id ? 'selected' : '' }}>{{ $pm->name }} - {{ $pm->role->name }}</option>
@@ -50,7 +50,7 @@
                         <div class="w-full px-4">
                             <div class="relative w-full mb-3">
                                 <x-label for="qa" :value="__('Quality Assurance')"/>
-                                <select name="qa[]" id="qa" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required multiple>
+                                <select name="qa" id="qa" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select User</option>
                                     @foreach ($users_qa as $qa)
                                         <option value="{{ $qa->id }}" {{ old('assigned_to') === $qa->id ? 'selected' : '' }}>{{ $qa->name }} - {{ $qa->role->name }}</option>
