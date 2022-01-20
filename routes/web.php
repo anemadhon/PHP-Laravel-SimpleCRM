@@ -56,23 +56,15 @@ Route::group(['middleware' => 'auth'], function()
                 ])->except(['show', 'destroy']);
     });
 
-    Route::get('clients/{client:slug}/projects', \App\Http\Controllers\ClientProjectController::class)
-            ->name('clients.projects');
-
-    Route::resource('projects.tasks', \App\Http\Controllers\ProjectTaskController::class)
-            ->scoped([
-                'project' => 'slug',
-                'task' => 'slug'
-            ])->except(['show', 'destroy']);
-    
-    Route::resource('projects.teams', \App\Http\Controllers\ProjectTeamController::class)
-            ->scoped([
-                'project' => 'slug'
-            ])->only(['index', 'create', 'store']);
-
     Route::resource('clients', \App\Http\Controllers\ClientController::class)
             ->scoped([
                 'client' => 'slug'
+            ])->except(['show', 'destroy']);
+
+    Route::resource('clients.projects', \App\Http\Controllers\ClientProjectController::class)
+            ->scoped([
+                'client' => 'slug',
+                'project' => 'slug'
             ])->except(['show', 'destroy']);
 
     Route::resource('projects', \App\Http\Controllers\ProjectController::class)
@@ -85,6 +77,12 @@ Route::group(['middleware' => 'auth'], function()
                 'task' => 'slug'
             ])->except(['show', 'destroy']);
 
+    Route::resource('projects.tasks', \App\Http\Controllers\ProjectTaskController::class)
+            ->scoped([
+                'project' => 'slug',
+                'task' => 'slug'
+            ])->except(['show', 'destroy']);
+
     Route::group([
         'prefix' => 'users',
         'as' => 'users.'
@@ -92,7 +90,23 @@ Route::group(['middleware' => 'auth'], function()
     {
         Route::get('/', [\App\Http\Controllers\UserController::class, 'index'])->name('index');
         Route::get('{user:username}/projects', [\App\Http\Controllers\UserController::class, 'projects'])->name('projects');
-        Route::get('{user:username}/tasks', [\App\Http\Controllers\UserController::class, 'tasks'])->name('tasks');
+    });
+
+    Route::resource('users.tasks', \App\Http\Controllers\UserTaskController::class)
+            ->scoped([
+                'user' => 'username',
+                'task' => 'slug'
+            ])->only(['index', 'edit', 'update']);
+    
+    Route::get('teams', [\App\Http\Controllers\ProjectTeamController::class, 'index'])->name('teams.index');
+
+    Route::group([
+        'prefix' => 'projects',
+        'as' => 'projects.'
+    ], function()
+    {
+        Route::get('{project:slug}/teams/create', [\App\Http\Controllers\ProjectTeamController::class, 'create'])->name('teams.create');
+        Route::post('{project:slug}/teams/create', [\App\Http\Controllers\ProjectTeamController::class, 'store'])->name('teams.store');
     });
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

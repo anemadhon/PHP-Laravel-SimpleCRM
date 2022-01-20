@@ -20,7 +20,7 @@ class TaskController extends Controller
     public function index()
     {
         return view('tasks.index', [
-            'tasks' => Task::with(['project', 'level', 'state', 'user'])->paginate(4)
+            'tasks' => Task::with(['project', 'level', 'state', 'user'])->orderBy('assigned_to')->paginate(4)
         ]);
     }
 
