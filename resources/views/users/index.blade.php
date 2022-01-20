@@ -56,7 +56,7 @@
                                         {{ $user->role->name }}
                                     @endif
                                     @if ($user->role_id === $is_sales)
-                                        <a href="{{ route('users.tasks', ['user' => $user]) }}" class="hover:underline">In Project</a>
+                                        <a href="{{ route('users.tasks.index', ['user' => $user]) }}" class="hover:underline">In Project</a>
                                     @endif
                                     @if (!in_array($user->role_id, [$is_mgr, $is_sales]))
                                         @if ($user->projects->count() === 0)

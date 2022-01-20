@@ -18,16 +18,11 @@ class UserController extends Controller
     public function projects(User $user)
     {
         return view('users.project', [
-            'user' => $user->name,
-            'projects' => $user->projects()->with(['state', 'level'])->paginate(4)
-        ]);
-    }
-    
-    public function tasks(User $user)
-    {
-        return view('users.task', [
-            'user' => $user->name,
-            'tasks' => $user->tasks()->with(['state', 'level', 'project', 'project.client'])->paginate(4)
+            'user' => $user,
+            'projects' => $user->projects()->with(['state', 'level'])->withCount(['tasks' => function($query) use ($user)
+            {
+                return $query->where('assigned_to', $user->id);
+            }])->paginate(4)
         ]);
     }
 }
