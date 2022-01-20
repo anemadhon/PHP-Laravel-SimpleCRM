@@ -176,7 +176,6 @@
                         </div>
                     </div>  
                     @can('manage-clients')
-                        
                         <div class="w-full xl:w-1/3 md:w-1/2 p-4">
                             <div class="border border-gray-400 p-6 rounded-lg">
                                 <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">

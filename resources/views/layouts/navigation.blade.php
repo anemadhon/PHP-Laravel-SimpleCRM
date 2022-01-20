@@ -81,7 +81,7 @@
                     </li>
                 @endcanany
                 
-                @canany(['manage-apps', 'manage-department', 'manage-teams', 'manage-tasks'])
+                @canany(['manage-apps', 'manage-department', 'manage-teams', 'manage-tasks', 'manage-clients'])
                     <li class="items-center">
                         <x-nav-link href="{{ route('projects.index') }}" :active="request()->routeIs('projects.*')">
                             <x-slot name="icon">
@@ -99,6 +99,17 @@
                             {{ __('Task') }}
                         </x-nav-link>
                     </li>
+                    
+                    @cannot('manage-tasks')
+                        <li class="items-center">
+                            <x-nav-link href="{{ route('teams.index') }}" :active="request()->routeIs('teams.*')">
+                                <x-slot name="icon">
+                                    <i class="fas fa-users-cog mr-2 text-sm opacity-75"></i>
+                                </x-slot>
+                                {{ __('Team') }}
+                            </x-nav-link>
+                        </li>
+                    @endcannot
                 @endcanany
             </ul>
 
