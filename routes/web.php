@@ -74,21 +74,26 @@ Route::group(['middleware' => 'auth'], function()
                 'task' => 'slug'
             ])->only(['index', 'edit', 'update']);
             
-
     Route::resource('projects', \App\Http\Controllers\ProjectController::class)
             ->scoped([
                 'project' => 'slug'
             ])->except('destroy');
+    
+    Route::resource('projects.tasks', \App\Http\Controllers\ProjectTaskController::class)
+            ->scoped([
+                'project' => 'slug',
+                'task' => 'slug'
+            ])->except(['show', 'destroy']);
 
     Route::resource('tasks', \App\Http\Controllers\TaskController::class)
             ->scoped([
                 'task' => 'slug'
             ])->except(['show', 'destroy']);
 
-    Route::resource('projects.tasks', \App\Http\Controllers\ProjectTaskController::class)
+    Route::resource('tasks.subs', \App\Http\Controllers\SubTaskController::class)
             ->scoped([
-                'project' => 'slug',
-                'task' => 'slug'
+                'task' => 'slug',
+                'sub' => 'slug'
             ])->except(['show', 'destroy']);
 
     Route::group([

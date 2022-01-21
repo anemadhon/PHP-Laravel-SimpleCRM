@@ -11,14 +11,26 @@ class SubTask extends Model
 {
     use HasFactory, SoftDeletes, Sluggable;
 
-    protected $fillableb = [
+    protected $fillable = [
         'name', 'slug', 
-        'level_id', 'task_id'
+        'level_id', 
+        'task_id',
+        'state_id'
     ];
 
     public function task()
     {
         return $this->belongsTo(Task::class);
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(Level::class);
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(ProjectState::class, 'state_id');
     }
 
     public function sluggable(): array
