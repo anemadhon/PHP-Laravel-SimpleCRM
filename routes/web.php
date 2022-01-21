@@ -67,6 +67,14 @@ Route::group(['middleware' => 'auth'], function()
                 'project' => 'slug'
             ])->except(['show', 'destroy']);
 
+    Route::resource('clients.projects.tasks', \App\Http\Controllers\ClientProjectTaskController::class)
+            ->scoped([
+                'client' => 'slug',
+                'project' => 'slug',
+                'task' => 'slug'
+            ])->only(['index', 'edit', 'update']);
+            
+
     Route::resource('projects', \App\Http\Controllers\ProjectController::class)
             ->scoped([
                 'project' => 'slug'

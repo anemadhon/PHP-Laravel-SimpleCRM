@@ -3,7 +3,7 @@
         <div class="relative flex flex-col min-w-0 break-words">
             <div class="flex-auto text-white text-xl font-semibold">
                 <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
-                    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-1 text-white">{{ __("{$client->name} Projects") }}</h1>
+                    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-1 text-white">{{ __("{$project->name} Tasks ({$client->name})") }}</h1>
                     <div class="h-1 w-20 bg-pink-100 rounded"></div>
                 </div>
             </div>
@@ -23,10 +23,10 @@
                             Level
                         </th>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center bg-blueGray-50 text-blueGray-500 border-blueGray-100">
-                            Sate
+                            State
                         </th>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center bg-blueGray-50 text-blueGray-500 border-blueGray-100">
-                            Task
+                            Assigned To
                         </th>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                             Action
@@ -34,22 +34,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($projects as $project)
+                    @forelse($tasks as $task)
                         <tr>
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                {{ $project->name }}
+                                {{ $task->name }}
                             </td>
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                {{ $project->level->name }}
+                                {{ $task->level->name }}
                             </td>
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                {{ $project->state->name }}
+                                {{ $task->state->name }}
                             </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center">
-                                <a href="{{ route('clients.projects.tasks.index', ['client' => $client, 'project' => $project]) }}" class="hover:underline">{{ $project->tasks_count }}</a>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                {{ $task->user->name }}
                             </td>
                             <td class="text-center border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <a href="{{ route('clients.projects.edit', ['client' => $client, 'project' => $project]) }}">
+                                <a href="{{ route('clients.projects.tasks.edit', ['client' => $client, 'project' => $project, 'task' => $task]) }}">
                                     <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
                                         <i class="fas fa-pen"></i> {{ __('Edit') }}
                                     </button>
@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        {{ $projects->links() }}
+        {{ $tasks->links() }}
 
     </div>
 </x-app-layout>
