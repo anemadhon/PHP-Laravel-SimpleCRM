@@ -17,8 +17,19 @@ class ProjectService
 
         foreach ($files as $file) {
             $project->attachments()->create([
-                'path' => $file->storeAs('project', "attachments/{$project->slug}/{$file->getClientOriginalName()}", 'public')
+                'path' => $file->storeAs('project', "attachments/{$project->slug}/{$file->getClientOriginalName()}", 'public'),
+                'filename' => $file->getClientOriginalName()
             ]);
         }
+    }
+
+    public function getExtensionFile(string $file)
+    {
+        return last(explode('.', $file));
+    }
+
+    public function formatPath(string $path)
+    {
+        return str_replace('/', '\\', $path);
     }
 }

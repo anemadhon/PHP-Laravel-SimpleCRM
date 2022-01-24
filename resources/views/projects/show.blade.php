@@ -65,7 +65,7 @@
                         <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
                             @foreach ($attachments as $attachment)
                                 <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
-                                    <td class="py-1">{{ $attachment->filename }}</td>
+                                    <td class="py-1"><a href="{{ route('projects.files', ['file' => $attachment]) }}" target="_blank">{{ $attachment->filename }}</a></td>
                                 </tr>
                             @endforeach
                         </table>

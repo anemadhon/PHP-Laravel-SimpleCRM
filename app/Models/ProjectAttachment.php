@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProjectAttachment extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     protected $fillable = [
-        'path', 'project_id'
+        'path', 'filename',
+        'slug', 'project_id'
     ];
 
     const MIME_TYPES = [
@@ -23,8 +25,12 @@ class ProjectAttachment extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function getFIlenameAttribute()
+    public function sluggable(): array
     {
-        return last(explode('/', $this->path));
+        return [
+            'slug' => [
+                'source' => 'filename'
+            ]
+        ];
     }
 }
