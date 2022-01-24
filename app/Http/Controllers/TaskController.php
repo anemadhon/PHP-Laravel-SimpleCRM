@@ -51,7 +51,7 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        Task::create($request->validated());
+        Task::create($request->validated() + ['created_by' => auth()->id()]);
 
         return redirect()->route('tasks.index')->with('success', 'Data Saved');
     }

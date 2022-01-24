@@ -55,7 +55,7 @@ class ProjectTaskController extends Controller
      */
     public function store(TaskRequest $request, Project $project)
     {
-        $project->tasks()->create($request->validated());
+        $project->tasks()->create($request->validated() + ['created_by' => auth()->id()]);
 
         return redirect()->route('projects.index')->with('success', 'Data Saved');
     }
