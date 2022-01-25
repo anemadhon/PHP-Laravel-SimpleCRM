@@ -30,6 +30,6 @@ class ProjectService
 
     public function formatPath(string $path)
     {
-        return str_replace('/', '\\', $path);
+        return 'app\\public\\'.str_replace('/', '\\', $path);
     }
 }

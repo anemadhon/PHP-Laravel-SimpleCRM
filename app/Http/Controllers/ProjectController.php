@@ -125,13 +125,13 @@ class ProjectController extends Controller
 
     public function attachment(ProjectAttachment $file)
     {
-        $extension = (new ProjectService())->getExtensionFile($file->path);
+        $extension = (new ProjectService())->getExtensionFile($file->filename);
         $path = (new ProjectService())->formatPath($file->path);
 
         if ($extension === 'pdf') {
-            return response()->file(storage_path('app\public\\'.$path));
+            return response()->file(storage_path($path));
         }
 
-        return response()->download(storage_path('app\public\\'.$path));
+        return response()->download(storage_path($path));
     }
 }
