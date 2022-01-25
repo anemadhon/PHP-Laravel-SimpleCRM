@@ -23,19 +23,21 @@
                 </div>
             @endif
             
-            <div class="rounded-t mb-3 px-4 py-3 border-0">
-                <div class="flex flex-wrap items-center">
-                    <div class="relative w-full px-2 max-w-full flex-grow flex-1">
-                        <h3 class="font-semibold text-lg text-blueGray-700">
-                            <a href="{{ route('projects.create') }}">
-                                <button class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase text-xs px-3 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
-                                    <i class="fas fa-plus"></i> {{ __('Add') }}
-                                </button>
-                            </a>
-                        </h3>
+            @canany(['manage-apps', 'manage-department', 'manage-clients'])
+                <div class="rounded-t mb-3 px-4 py-3 border-0">
+                    <div class="flex flex-wrap items-center">
+                        <div class="relative w-full px-2 max-w-full flex-grow flex-1">
+                            <h3 class="font-semibold text-lg text-blueGray-700">
+                                <a href="{{ route('projects.create') }}">
+                                    <button class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase text-xs px-3 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
+                                        <i class="fas fa-plus"></i> {{ __('Add') }}
+                                    </button>
+                                </a>
+                            </h3>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endcanany
 
             <div class="block w-full overflow-x-auto">
                 <table class="items-center w-full bg-transparent border-collapse">
@@ -86,15 +88,17 @@
                                 {{ $project->users_count }}
                             </td>
                             <td class="text-center border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <a href="{{ route('projects.tasks.create', ['project' => $project]) }}">
-                                    <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
-                                        <i class="fas fa-plus"></i> {{ __('Create Task') }}
-                                    </button>
-                                </a>
-                                @if ($project->users_count === 0)
+                                @if (auth()->user()->canany(['manage-apps', 'manage-department']) && $project->users_count === 0)
                                     <a href="{{ route('projects.teams.create', ['project' => $project]) }}">
                                         <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
                                             <i class="fas fa-plus"></i> {{ __('Create Team') }}
+                                        </button>
+                                    </a>
+                                @endif
+                                @if (auth()->user()->canany(['manage-apps', 'manage-department']) || (auth()->user()->can('manage-teams') && $project->users_count > 0))
+                                    <a href="{{ route('projects.tasks.create', ['project' => $project]) }}">
+                                        <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
+                                            <i class="fas fa-plus"></i> {{ __('Create Task') }}
                                         </button>
                                     </a>
                                 @endif
@@ -103,11 +107,13 @@
                                         <i class="far fa-eye"></i> {{ __('Details') }}
                                     </button>
                                 </a>
-                                <a href="{{ route('projects.edit', ['project' => $project]) }}">
-                                    <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
-                                        <i class="fas fa-pen"></i> {{ __('Edit') }}
-                                    </button>
-                                </a>
+                                @cannot('manage-tasks')
+                                    <a href="{{ route('projects.edit', ['project' => $project]) }}">
+                                        <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
+                                            <i class="fas fa-pen"></i> {{ __('Edit') }}
+                                        </button>
+                                    </a>
+                                @endcannot
                             </td>
                         </tr>
                     @empty

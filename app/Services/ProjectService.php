@@ -3,10 +3,20 @@
 namespace App\Services;
 
 use App\Models\Project;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\File;
 
 class ProjectService
 {
+    public function lists(Authenticatable $user)
+    {
+        if ($user->can('manage-teams') || $user->can('manage-tasks')) {
+            return $user->projects()->with(['state', 'level', 'client'])->withCount(['tasks', 'users'])->paginate(4);
+        }
+        
+        return Project::with(['state', 'level', 'client'])->withCount(['tasks', 'users'])->paginate(4);
+    }
+
     public function attachment(array $files, Project $project, string $flag = '')
     {
         if ($flag === 'edit') {
@@ -23,7 +33,7 @@ class ProjectService
         }
     }
 
-    public function getExtensionFile(string $file)
+    public function extensionFile(string $file)
     {
         return last(explode('.', $file));
     }

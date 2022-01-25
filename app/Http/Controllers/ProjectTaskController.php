@@ -41,7 +41,7 @@ class ProjectTaskController extends Controller
             {
                 return $query->forDevelopmentTeam();
             })->orderBy('id')->get(['id', 'name']),
-            'users' => User::notAdmin()->notMgr()->with('role')->orderBy('id')->get(['id', 'name', 'role_id']),
+            'users' => $project->users()->with('role')->get(['id', 'name', 'role_id']),
             'project' => $project
         ]);
     }

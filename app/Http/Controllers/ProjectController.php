@@ -20,8 +20,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        $projects = (new ProjectService())->lists(auth()->user());
+        
         return view('projects.index', [
-            'projects' => Project::with(['state', 'level', 'client'])->withCount(['tasks', 'users'])->paginate(4)
+            'projects' => $projects
         ]);
     }
 
@@ -125,7 +127,7 @@ class ProjectController extends Controller
 
     public function attachment(ProjectAttachment $file)
     {
-        $extension = (new ProjectService())->getExtensionFile($file->filename);
+        $extension = (new ProjectService())->extensionFile($file->filename);
         $path = (new ProjectService())->formatPath($file->path);
 
         if ($extension === 'pdf') {
