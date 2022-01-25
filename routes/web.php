@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ProjectAttachment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,10 +70,13 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::resource('clients.projects.tasks', \App\Http\Controllers\ClientProjectTaskController::class)
             ->scoped([
-                'client' => 'slug',
+                'client' => 'slug', 
                 'project' => 'slug',
                 'task' => 'slug'
             ])->only(['index', 'edit', 'update']);
+
+    Route::get('projects/attachments/review/{file:slug}', [\App\Http\Controllers\ProjectController::class, 'attachment'])
+            ->name('projects.files');
             
     Route::resource('projects', \App\Http\Controllers\ProjectController::class)
             ->scoped([
