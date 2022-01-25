@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Project;
 use App\Services\DashboardService;
 
 class DashboardController extends Controller
 {
     public function __invoke()
     {
-        $isPM = auth()->user()->role_id === User::IS_PM;
-        $isSales = auth()->user()->role_id === User::IS_SALES;
-        $isDevTeam = in_array(auth()->user()->role_id, User::IS_DEV_TEAM);
+        $isPM = auth()->user()->can('manage-teams');
+        $isSales = auth()->user()->can('manage-clients');
+        $isDevTeam = auth()->user()->can('manage-tasks');
 
         return view('dashboard', [
             'dashboard' => (new DashboardService())->statistic(auth()->user()->role_id),
-            'your_projects' => ($isPM || $isDevTeam) ? auth()->user()->projects : null,
-            'your_tasks' => ($isPM || $isDevTeam || $isSales) ? auth()->user()->tasks : null
+            'your_projects' => ($isPM || $isDevTeam) ? auth()->user()->projects : (auth()->user()->can('manage-department') ? Project::all(['name'])->take(7) : null),
+            'your_tasks' => ($isPM || $isDevTeam || $isSales) ? auth()->user()->tasks : null,
+            'your_skills' => auth()->user()->cannot('manage-apps') ? auth()->user()->skills : null
         ]);
     }
 }

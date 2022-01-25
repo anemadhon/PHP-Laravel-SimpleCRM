@@ -151,8 +151,6 @@
                             </table>
                         </div>
                     </div>
-                @endcanany
-                @canany(['manage-teams', 'manage-tasks'])
                     <div class="w-full xl:w-1/3 md:w-1/2 p-4">
                         <div class="border border-gray-400 p-6 rounded-lg">
                             <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">
@@ -160,64 +158,95 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                                 </svg>
                             </div>
-                            <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Your Project</h2>
+                            <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Skills</h2>
                             <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
-                                @forelse ($your_projects as $skill)
+                                @foreach ($dashboard['skills'] as $skill)
                                     <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
                                         <td class="py-1">{{ $skill->name }}</td>
                                         <td class="text-right">{{ $skill->users_count }}</td>
                                     </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                @endcanany
+            </div>
+
+            <x-divider class="my-2" />
+
+            <div class="flex flex-wrap p-4">
+                @cannot('manage-apps')
+                    @canany(['manage-department', 'manage-teams', 'manage-tasks', 'manage-clients'])
+                        @cannot('manage-clients')
+                            <div class="w-full xl:w-1/3 md:w-1/2 p-4">
+                                <div class="border border-gray-400 p-6 rounded-lg">
+                                    <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                        </svg>
+                                    </div>
+                                    <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Your Project</h2>
+                                    <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
+                                        @forelse ($your_projects as $yourProject)
+                                            <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
+                                                <td class="py-1">{{ $yourProject->name }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
+                                                <td class="py-1" colspan="2">{{ __("You're Idle") }}</td>
+                                            </tr>
+                                        @endforelse
+                                    </table>
+                                </div>
+                            </div>  
+                        @endcannot 
+                        @cannot('manage-department')
+                            
+                            <div class="w-full xl:w-1/3 md:w-1/2 p-4">
+                                <div class="border border-gray-400 p-6 rounded-lg">
+                                    <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                        </svg>
+                                    </div>
+                                    <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Your Task</h2>
+                                    <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
+                                        @forelse ($your_tasks as $yourTask)
+                                            <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
+                                                <td class="py-1">{{ $yourTask->name }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
+                                                <td class="py-1" colspan="2">{{ __("You're Idle") }}</td>
+                                            </tr>
+                                        @endforelse
+                                    </table>
+                                </div>
+                            </div>   
+                        @endcannot
+                    @endcanany
+                    <div class="w-full xl:w-1/3 md:w-1/2 p-4">
+                        <div class="border border-gray-400 p-6 rounded-lg">
+                            <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Your Skills</h2>
+                            <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
+                                @forelse ($your_skills as $yourSkill)
+                                    <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
+                                        <td class="py-1">{{ $yourSkill->name }}</td>
+                                    </tr>
                                 @empty
                                     <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
-                                        <td class="py-1" colspan="2">{{ __("You're Idle") }}</td>
+                                        <td class="py-1" colspan="2">{{ __("Please fill in your skills ") }} <a href="{{ route('profile.show') }}" class="underline">{{ __('here') }}</a></td>
                                     </tr>
                                 @endforelse
                             </table>
                         </div>
-                    </div>  
-                    @can('manage-clients')
-                        <div class="w-full xl:w-1/3 md:w-1/2 p-4">
-                            <div class="border border-gray-400 p-6 rounded-lg">
-                                <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                                    </svg>
-                                </div>
-                                <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Your Task</h2>
-                                <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
-                                    @forelse ($your_tasks as $skill)
-                                        <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
-                                            <td class="py-1">{{ $skill->name }}</td>
-                                            <td class="text-right">{{ $skill->users_count }}</td>
-                                        </tr>
-                                    @empty
-                                        <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
-                                            <td class="py-1" colspan="2">{{ __("You're Idle") }}</td>
-                                        </tr>
-                                    @endforelse
-                                </table>
-                            </div>
-                        </div>   
-                    @endcan 
-                @endcanany
-                <div class="w-full xl:w-1/3 md:w-1/2 p-4">
-                    <div class="border border-gray-400 p-6 rounded-lg">
-                        <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                            </svg>
-                        </div>
-                        <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Skills</h2>
-                        <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
-                            @foreach ($dashboard['skills'] as $skill)
-                                <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
-                                    <td class="py-1">{{ $skill->name }}</td>
-                                    <td class="text-right">{{ $skill->users_count }}</td>
-                                </tr>
-                            @endforeach
-                        </table>
                     </div>
-                </div>
+                @endcannot
             </div>
         </div>
     </div>
