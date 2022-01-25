@@ -9,6 +9,7 @@ use App\Models\Level;
 use App\Models\Project;
 use App\Models\ProjectState;
 use App\Models\User;
+use App\Services\TaskService;
 
 class TaskController extends Controller
 {
@@ -19,8 +20,10 @@ class TaskController extends Controller
      */
     public function index()
     {
+        $tasks = (new TaskService())->lists(auth()->user());
+
         return view('tasks.index', [
-            'tasks' => Task::with(['project', 'level', 'state', 'user'])->withCount('subs')->orderBy('assigned_to')->paginate(4)
+            'tasks' => $tasks
         ]);
     }
 
@@ -39,7 +42,7 @@ class TaskController extends Controller
                 return $query->forDevelopmentTeam();
             })->orderBy('id')->get(['id', 'name']),
             'projects' => Project::orderBy('id')->get(['id', 'name']),
-            'users' => User::notAdmin()->notMgr()->with('role')->orderBy('id')->get(['id', 'name', 'role_id'])
+            'users' => User::notAdmin()->notMgr()->with('role')->whereIn('role_id', [3,4])->orderBy('id')->get(['id', 'name', 'role_id'])
         ]);
     }
 

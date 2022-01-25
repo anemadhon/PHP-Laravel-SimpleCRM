@@ -23,19 +23,21 @@
                 </div>
             @endif
             
-            <div class="rounded-t mb-3 px-4 py-3 border-0">
-                <div class="flex flex-wrap items-center">
-                    <div class="relative w-full px-2 max-w-full flex-grow flex-1">
-                        <h3 class="font-semibold text-lg text-blueGray-700">
-                            <a href="{{ route('tasks.create') }}">
-                                <button class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase text-xs px-3 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
-                                    <i class="fas fa-plus"></i> {{ __('Add') }}
-                                </button>
-                            </a>
-                        </h3>
+            @canany(['manage-apps', 'manage-department'])
+                <div class="rounded-t mb-3 px-4 py-3 border-0">
+                    <div class="flex flex-wrap items-center">
+                        <div class="relative w-full px-2 max-w-full flex-grow flex-1">
+                            <h3 class="font-semibold text-lg text-blueGray-700">
+                                <a href="{{ route('tasks.create') }}">
+                                    <button class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase text-xs px-3 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
+                                        <i class="fas fa-plus"></i> {{ __('Add') }}
+                                    </button>
+                                </a>
+                            </h3>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endcanany
 
             <div class="block w-full overflow-x-auto">
                 <table class="items-center w-full bg-transparent border-collapse">
