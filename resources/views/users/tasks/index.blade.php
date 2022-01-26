@@ -55,11 +55,15 @@
                                 {{ $task->project->name }}
                             </td>
                             <td class="text-center border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <a href="{{ route('users.tasks.edit', ['user' => $user, 'task' => $task]) }}">
-                                    <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
-                                        <i class="fas fa-pen"></i> {{ __('Edit') }}
-                                    </button>
-                                </a>
+                                @if (auth()->user()->can('manage-apps') || in_array(auth()->id(), [$task->created_by, $task->assigned_to]))
+                                    <a href="{{ route('users.tasks.edit', ['user' => $user, 'task' => $task]) }}">
+                                        <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
+                                            <i class="fas fa-pen"></i> {{ __('Edit') }}
+                                        </button>
+                                    </a>
+                                @else
+                                    -
+                                @endif
                             </td>
                         </tr>
                     @empty
