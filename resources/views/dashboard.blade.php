@@ -217,7 +217,7 @@
                                             </tr>
                                         @empty
                                             <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
-                                                <td class="py-1" colspan="2">{{ __("You're Idle") }}</td>
+                                                <td class="py-1" colspan="2">{{ __("You haven't a Task yet") }}</td>
                                             </tr>
                                         @endforelse
                                     </table>
