@@ -38,9 +38,9 @@ class TaskController extends Controller
             'state' => 'New',
             'levels' => Level::orderBy('id')->get(['id', 'name']),
             'states' => ProjectState::when(in_array(auth()->user()->role_id, User::IS_DEV_TEAM), function($query)
-            {
-                return $query->forDevelopmentTeam();
-            })->orderBy('id')->get(['id', 'name']),
+                        {
+                            return $query->forDevelopmentTeam();
+                        })->orderBy('id')->get(['id', 'name']),
             'projects' => Project::orderBy('id')->get(['id', 'name']),
             'users' => User::notAdmin()->notMgr()->with('role')->whereIn('role_id', [3,4])->orderBy('id')->get(['id', 'name', 'role_id'])
         ]);
@@ -82,11 +82,11 @@ class TaskController extends Controller
             'state' => 'Update',
             'levels' => Level::orderBy('id')->get(['id', 'name']),
             'states' => ProjectState::when(in_array(auth()->user()->role_id, User::IS_DEV_TEAM), function($query)
-            {
-                return $query->forDevelopmentTeam();
-            })->orderBy('id')->get(['id', 'name']),
+                        {
+                            return $query->forDevelopmentTeam();
+                        })->orderBy('id')->get(['id', 'name']),
             'projects' => Project::orderBy('id')->get(['id', 'name']),
-            'users' => User::with('role')->orderBy('id')->get(['id', 'name', 'role_id']),
+            'users' => User::notAdmin()->notMgr()->with('role')->whereIn('role_id', [3,4])->orderBy('id')->get(['id', 'name', 'role_id']),
             'task' => $task
         ]);
     }
