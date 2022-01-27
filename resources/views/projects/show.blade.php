@@ -81,6 +81,16 @@
                         </div>
                         <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Teams</h2>
                         <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
+                            <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
+                                <td class="py-1">{{ $manager->name }}</td>
+                                <td class="py-1 text-right">{{ __('Manager') }}</td>
+                            </tr>
+                            @foreach ($sales as $sale)
+                                <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
+                                    <td class="py-1">{{ $sale->name }}</td>
+                                    <td class="py-1 text-right">{{ __('Sales Support') }}</td>
+                                </tr>
+                            @endforeach
                             @foreach ($teams as $team)
                                 <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
                                     <td class="py-1">{{ $team->name }}</td>

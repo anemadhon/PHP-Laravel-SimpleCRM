@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProjectRequest;
-use App\Models\Client;
+use App\Models\Task;
+use App\Models\User;
 use App\Models\Level;
+use App\Models\Client;
 use App\Models\Project;
-use App\Models\ProjectAttachment;
 use App\Models\ProjectState;
-use App\Services\ProjectService;
 use Illuminate\Http\Request;
+use App\Services\ProjectService;
+use App\Models\ProjectAttachment;
+use App\Http\Requests\ProjectRequest;
 
 class ProjectController extends Controller
 {
@@ -74,7 +76,12 @@ class ProjectController extends Controller
             'owner' => $project,
             'attachments' => $details->attachments,
             'teams' => $details->users,
-            'tasks' => $details->tasks
+            'tasks' => $details->tasks,
+            'manager' => User::where('role_id', 2)->first('name'),
+            'sales' => User::where('role_id', 4)->with(['tasks' => function($query) use ($project)
+                        {
+                            return $query->where('project_id', $project->id);
+                        }])->whereHas('tasks')->get('name')
         ]);
     }
 
