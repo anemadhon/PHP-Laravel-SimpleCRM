@@ -78,10 +78,10 @@ class ProjectController extends Controller
             'teams' => $details->users,
             'tasks' => $details->tasks,
             'manager' => User::where('role_id', 2)->first('name'),
-            'sales' => User::where('role_id', 4)->with(['tasks' => function($query) use ($project)
+            'sales' => User::where('role_id', 4)->whereHas('tasks', function($query) use ($project)
                         {
                             return $query->where('project_id', $project->id);
-                        }])->whereHas('tasks')->get('name')
+                        })->get('name')
         ]);
     }
 
