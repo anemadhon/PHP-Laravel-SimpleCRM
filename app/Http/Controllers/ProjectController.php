@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
 use App\Models\User;
 use App\Models\Level;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\ProjectState;
-use Illuminate\Http\Request;
 use App\Services\ProjectService;
 use App\Models\ProjectAttachment;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProjectRequest;
 
 class ProjectController extends Controller
@@ -36,6 +35,10 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        if (!Gate::any(['manage-apps', 'manage-department', 'manage-clients'])) {
+            abort(403, 'THIS ACTION IS UNAUTHORIZED.');
+        }
+
         return view('projects.form', [
             'state' => 'New',
             'mimes' => implode(',', ProjectAttachment::MIME_TYPES),
@@ -48,11 +51,15 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\ProjectRequest  $request
+     * @param  \App\Http\Requests\ProjectRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(ProjectRequest $request)
     {
+        if (!Gate::any(['manage-apps', 'manage-department', 'manage-clients'])) {
+            abort(403, 'THIS ACTION IS UNAUTHORIZED.');
+        }
+
         $project = Project::create($request->validated());
 
         if ($request->hasFile('attachment')) {
@@ -93,6 +100,10 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        if (Gate::allows('manage-tasks')) {
+            abort(403, 'THIS ACTION IS UNAUTHORIZED.');
+        }
+
         return view('projects.form', [
             'state' => 'Update',
             'mimes' => implode(',', ProjectAttachment::MIME_TYPES),
@@ -106,12 +117,16 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\ProjectRequest  $request
+     * @param  \App\Http\Requests\ProjectRequest  $request
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
     public function update(ProjectRequest $request, Project $project)
     {
+        if (Gate::allows('manage-tasks')) {
+            abort(403, 'THIS ACTION IS UNAUTHORIZED.');
+        }
+        
         $project->update($request->validated());
         
         if ($request->hasFile('attachment')) {
@@ -119,17 +134,6 @@ class ProjectController extends Controller
         }
 
         return redirect()->route('projects.index')->with('success', 'Data Updated');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Project $project)
-    {
-        //
     }
 
     public function attachment(ProjectAttachment $file)

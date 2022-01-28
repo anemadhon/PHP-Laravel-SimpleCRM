@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectStateRequest;
 use App\Models\ProjectState;
-use Illuminate\Http\Request;
 
 class ProjectStateController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorize('manage-apps');
+    }
+    
     /**
      * Display a listing of the resource.
      *
