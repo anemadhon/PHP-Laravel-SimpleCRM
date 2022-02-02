@@ -2,6 +2,7 @@
 
 use App\Models\ProjectAttachment;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TeamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -120,7 +121,7 @@ Route::group(['middleware' => 'auth'], function()
                 'task' => 'slug'
             ])->only(['index', 'edit', 'update']);
     
-    Route::get('teams', [\App\Http\Controllers\ProjectTeamController::class, 'index'])->name('teams.index');
+    Route::get('teams', \App\Http\Controllers\TeamController::class)->name('teams.index');
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
