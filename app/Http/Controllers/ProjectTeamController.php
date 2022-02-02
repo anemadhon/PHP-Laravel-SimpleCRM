@@ -15,14 +15,11 @@ class ProjectTeamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Project $project)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'manage-clients'])) {
-            abort(403, 'THIS ACTION IS UNAUTHORIZED.');
-        }
-        
-        return view('teams.index', [
-            'teams' => Project::with(['users', 'users.role', 'users.tasks'])->paginate(4)
+        return view('projects.teams.index', [
+            'project' => $project,
+            'teams' => $project->users()->with(['role'])->paginate(4)
         ]);
     }
 

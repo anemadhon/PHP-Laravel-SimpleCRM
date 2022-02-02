@@ -82,7 +82,12 @@ Route::group(['middleware' => 'auth'], function()
             ->scoped([
                 'project' => 'slug'
             ])->except('destroy');
-    
+
+    Route::resource('projects.teams', \App\Http\Controllers\ProjectTeamController::class)
+            ->scoped([
+                'project' => 'slug',
+            ])->only(['index', 'create', 'store']);
+
     Route::resource('projects.tasks', \App\Http\Controllers\ProjectTaskController::class)
             ->scoped([
                 'project' => 'slug',
@@ -116,15 +121,6 @@ Route::group(['middleware' => 'auth'], function()
             ])->only(['index', 'edit', 'update']);
     
     Route::get('teams', [\App\Http\Controllers\ProjectTeamController::class, 'index'])->name('teams.index');
-
-    Route::group([
-        'prefix' => 'projects',
-        'as' => 'projects.'
-    ], function()
-    {
-        Route::get('{project:slug}/teams/create', [\App\Http\Controllers\ProjectTeamController::class, 'create'])->name('teams.create');
-        Route::post('{project:slug}/teams/create', [\App\Http\Controllers\ProjectTeamController::class, 'store'])->name('teams.store');
-    });
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');

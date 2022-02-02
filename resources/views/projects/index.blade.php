@@ -56,10 +56,10 @@
                             State
                         </th>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center bg-blueGray-50 text-blueGray-500 border-blueGray-100">
-                            Tasks
+                            Teams
                         </th>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center bg-blueGray-50 text-blueGray-500 border-blueGray-100">
-                            Teams
+                            Tasks
                         </th>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center bg-blueGray-50 text-blueGray-500 border-blueGray-100">
                             Action
@@ -82,10 +82,10 @@
                                 {{ $project->state->name }}
                             </td>
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center">
-                                <a href="{{ route('projects.tasks.index', ['project' => $project]) }}" class="hover:underline">{{ $project->tasks_count }}</a>
+                                <a href="{{ route('projects.teams.index', ['project' => $project]) }}" class="hover:underline">{{ $project->users_count }}</a>
                             </td>
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center">
-                                {{ $project->users_count }}
+                                <a href="{{ route('projects.tasks.index', ['project' => $project]) }}" class="hover:underline">{{ $project->tasks_count }}</a>
                             </td>
                             <td class="text-center border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                 @if (auth()->user()->canany(['manage-apps', 'manage-department']) && $project->users_count === 0)
