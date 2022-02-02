@@ -42,4 +42,19 @@ class ProjectService
     {
         return 'app\\public\\'.str_replace('/', '\\', $path);
     }
+
+    public function team(array $ids)
+    {
+        $users = [];
+
+        $users[] = $ids['pm'];
+
+        foreach ($ids['dev'] as $id) {
+            $users[] = $id;
+        }
+        
+        $users[] = $ids['qa'];
+
+        return $users;
+    }
 }

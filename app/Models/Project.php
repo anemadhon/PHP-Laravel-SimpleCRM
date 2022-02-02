@@ -49,7 +49,9 @@ class Project extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)
+                ->withPivot(['pm_id'])
+                ->using(ProjectUser::class);
     }
 
     public function sluggable(): array

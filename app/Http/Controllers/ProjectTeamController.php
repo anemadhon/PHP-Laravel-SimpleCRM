@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TeamRequest;
 use App\Models\User;
 use App\Models\Project;
+use App\Http\Requests\TeamRequest;
+use App\Services\ProjectService;
+use Illuminate\Support\Facades\Gate;
 
 class ProjectTeamController extends Controller
 {
@@ -59,9 +61,13 @@ class ProjectTeamController extends Controller
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
-        $project->users()->attach($request->safe()->only('pm')['pm']);
-        $project->users()->attach($request->safe()->only('dev')['dev']);
-        $project->users()->attach($request->safe()->only('qa')['qa']);
+        //check apakah developer available
+        //check apakah qa available
+
+        $teams = (new ProjectService())->team($request->safe()->only(['pm', 'dev', 'qa']));
+        $pm = ['pm_id' => $request->safe()->only('pm')['pm']];
+
+        $project->users()->syncWithPivotValues($teams, $pm);
 
         return redirect()->route('teams.index')->with('success', 'Data Saved');
     }
