@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\Project;
 use App\Models\ProjectState;
 use App\Http\Requests\TaskRequest;
+use Illuminate\Support\Facades\Gate;
 
 class ClientProjectTaskController extends Controller
 {

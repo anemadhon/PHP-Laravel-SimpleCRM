@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SubTaskRequest;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Level;
 use App\Models\SubTask;
 use App\Models\ProjectState;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\SubTaskRequest;
 
 class SubTaskController extends Controller
 {

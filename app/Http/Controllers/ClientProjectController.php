@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Project;
 use App\Models\ProjectState;
 use App\Models\ProjectAttachment;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProjectRequest;
 
 class ClientProjectController extends Controller
