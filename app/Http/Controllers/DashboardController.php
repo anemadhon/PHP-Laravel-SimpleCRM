@@ -11,7 +11,7 @@ class DashboardController extends Controller
     {
         $isPM = auth()->user()->can('create-teams');
         $isSales = auth()->user()->can('create-clients');
-        $isDevTeam = auth()->user()->can('manage-tasks');
+        $isDevTeam = auth()->user()->can('create-tasks');
 
         return view('dashboard', [
             'dashboard' => (new DashboardService())->statistic(auth()->user()->role_id),

@@ -100,7 +100,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        if (Gate::allows('manage-tasks')) {
+        if (Gate::allows('create-tasks')) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -123,7 +123,7 @@ class ProjectController extends Controller
      */
     public function update(ProjectRequest $request, Project $project)
     {
-        if (Gate::allows('manage-tasks')) {
+        if (Gate::allows('create-tasks')) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         

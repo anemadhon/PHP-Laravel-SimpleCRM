@@ -176,7 +176,7 @@
 
             <div class="flex flex-wrap p-4">
                 @cannot('manage-apps')
-                    @canany(['manage-department', 'create-teams', 'manage-tasks', 'create-clients'])
+                    @canany(['manage-department', 'create-teams', 'create-tasks', 'create-clients'])
                         @cannot('create-clients')
                             <div class="w-full xl:w-1/3 md:w-1/2 p-4">
                                 <div class="border border-gray-400 p-6 rounded-lg">
