@@ -10,7 +10,7 @@ class ProjectService
 {
     public function lists(Authenticatable $user)
     {
-        if ($user->can('manage-teams') || $user->can('manage-tasks')) {
+        if ($user->can('create-teams') || $user->can('manage-tasks')) {
             return $user->projects()->with(['state', 'level', 'client'])->withCount(['tasks', 'users'])->paginate(4);
         }
         

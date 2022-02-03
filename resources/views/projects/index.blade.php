@@ -95,7 +95,7 @@
                                         </button>
                                     </a>
                                 @endif
-                                @if (auth()->user()->canany(['manage-apps', 'manage-department']) || (auth()->user()->can('manage-teams') && $project->users_count > 0))
+                                @if (auth()->user()->canany(['manage-apps', 'manage-department']) || (auth()->user()->can('create-teams') && $project->users_count > 0))
                                     <a href="{{ route('projects.tasks.create', ['project' => $project]) }}">
                                         <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
                                             <i class="fas fa-plus"></i> {{ __('Create Task') }}

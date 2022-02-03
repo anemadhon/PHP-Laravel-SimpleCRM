@@ -34,7 +34,7 @@ class ProjectTaskController extends Controller
      */
     public function create(Project $project)
     {
-        if (!Gate::any(['manage-apps', 'manage-department']) || (!Gate::allows('manage-teams') && $project->users->count() === 0)) {
+        if (!Gate::any(['manage-apps', 'manage-department']) || (!Gate::allows('create-teams') && $project->users->count() === 0)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -59,7 +59,7 @@ class ProjectTaskController extends Controller
      */
     public function store(TaskRequest $request, Project $project)
     {
-        if (!Gate::any(['manage-apps', 'manage-department']) || (!Gate::allows('manage-teams') && $project->users->count() === 0)) {
+        if (!Gate::any(['manage-apps', 'manage-department']) || (!Gate::allows('create-teams') && $project->users->count() === 0)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -77,7 +77,7 @@ class ProjectTaskController extends Controller
      */
     public function edit(Project $project, Task $task)
     {
-        if (!Gate::any(['manage-apps', 'manage-department']) || (!Gate::allows('manage-teams') && $project->users->count() === 0)) {
+        if (!Gate::any(['manage-apps', 'manage-department']) || (!Gate::allows('create-teams') && $project->users->count() === 0)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -104,7 +104,7 @@ class ProjectTaskController extends Controller
      */
     public function update(TaskRequest $request, Project $project, Task $task)
     {
-        if (!Gate::any(['manage-apps', 'manage-department']) || (!Gate::allows('manage-teams') && $project->users->count() === 0)) {
+        if (!Gate::any(['manage-apps', 'manage-department']) || (!Gate::allows('create-teams') && $project->users->count() === 0)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 

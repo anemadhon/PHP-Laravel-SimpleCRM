@@ -9,7 +9,7 @@ class TaskService
 {
     public function lists(Authenticatable $user)
     {
-        if ($user->can('manage-teams') || $user->can('manage-clients') || $user->can('manage-tasks')) {
+        if ($user->can('create-teams') || $user->can('manage-clients') || $user->can('manage-tasks')) {
             return $user->tasks()->with(['project', 'level', 'state', 'user'])->withCount('subs')->orderBy('assigned_to')->paginate(4);
         }
 
