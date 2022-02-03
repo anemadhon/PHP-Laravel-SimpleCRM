@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Task;
 use App\Models\User;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -49,6 +50,14 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-tasks', function(User $user)
         {
             return in_array($user->role_id, User::IS_DEV_TEAM);
+        });
+
+        Gate::define('manage-sub-tasks', function(User $user, Task $task)
+        {
+            $isAdmin = $user->role_id === User::IS_ADMIN;
+            $picTask = $user->id === $task->assigned_to;
+
+            return $isAdmin || $picTask;
         });
     }
 }

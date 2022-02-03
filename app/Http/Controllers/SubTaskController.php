@@ -34,7 +34,7 @@ class SubTaskController extends Controller
      */
     public function create(Task $task)
     {
-        if (!Gate::allows('manage-apps') || !auth()->id() === $task->assigned_to) {
+        if (!Gate::allows('manage-sub-tasks', $task)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -58,7 +58,7 @@ class SubTaskController extends Controller
      */
     public function store(SubTaskRequest $request, Task $task)
     {
-        if (!Gate::allows('manage-apps') || !auth()->id() === $task->assigned_to) {
+        if (!Gate::allows('manage-sub-tasks', $task)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -76,7 +76,7 @@ class SubTaskController extends Controller
      */
     public function edit(Task $task, SubTask $sub)
     {
-        if (!Gate::allows('manage-apps') || !auth()->id() === $task->assigned_to) {
+        if (!Gate::allows('manage-sub-tasks', $task)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -102,7 +102,7 @@ class SubTaskController extends Controller
      */
     public function update(SubTaskRequest $request, Task $task, SubTask $sub)
     {
-        if (!Gate::allows('manage-apps') || !auth()->id() === $task->assigned_to) {
+        if (!Gate::allows('manage-sub-tasks', $task)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
