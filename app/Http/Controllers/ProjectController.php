@@ -35,7 +35,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'manage-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -56,7 +56,7 @@ class ProjectController extends Controller
      */
     public function store(ProjectRequest $request)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'manage-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 

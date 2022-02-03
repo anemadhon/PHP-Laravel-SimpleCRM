@@ -23,7 +23,7 @@
                 </div>
             @endif
             
-            @canany(['manage-apps', 'manage-department', 'manage-clients'])
+            @canany(['manage-apps', 'manage-department', 'create-clients'])
                 <div class="rounded-t mb-3 px-4 py-3 border-0">
                     <div class="flex flex-wrap items-center">
                         <div class="relative w-full px-2 max-w-full flex-grow flex-1">

@@ -61,7 +61,7 @@
                     </x-nav-link>
                 </li>
 
-                @canany(['manage-apps', 'manage-department', 'manage-clients'])
+                @canany(['manage-apps', 'manage-department', 'create-clients'])
                     <li class="items-center">
                         <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
                             <x-slot name="icon">
@@ -99,7 +99,7 @@
                     </x-nav-link>
                 </li>
                 
-                @canany(['manage-apps', 'manage-department', 'manage-clients'])
+                @canany(['manage-apps', 'manage-department', 'create-clients'])
                     <li class="items-center">
                         <x-nav-link href="{{ route('teams.index') }}" :active="request()->routeIs('teams.*')">
                             <x-slot name="icon">

@@ -16,7 +16,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'manage-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -32,7 +32,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'manage-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -50,7 +50,7 @@ class ClientController extends Controller
      */
     public function store(ClientRequest $request)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'manage-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -67,7 +67,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'manage-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -87,7 +87,7 @@ class ClientController extends Controller
      */
     public function update(ClientRequest $request, Client $client)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'manage-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         

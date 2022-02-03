@@ -9,7 +9,7 @@ class TeamController extends Controller
 {
     public function __invoke()
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'manage-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         

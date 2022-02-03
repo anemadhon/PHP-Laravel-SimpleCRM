@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 @endcan
-                @canany(['manage-apps', 'manage-department', 'manage-clients'])
+                @canany(['manage-apps', 'manage-department', 'create-clients'])
                     <div class="w-full xl:w-1/3 md:w-1/2 p-4">
                         <div class="border border-gray-400 p-6 rounded-lg">
                             <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 @endcanany
-                @canany(['manage-apps', 'manage-department', 'manage-clients', 'create-teams'])
+                @canany(['manage-apps', 'manage-department', 'create-clients', 'create-teams'])
                     <div class="w-full xl:w-1/3 md:w-1/2 p-4">
                         <div class="border border-gray-400 p-6 rounded-lg">
                             <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">
@@ -132,7 +132,7 @@
                         </div>
                     </div>
                 @endcanany
-                @canany(['manage-apps', 'manage-department', 'manage-clients'])
+                @canany(['manage-apps', 'manage-department', 'create-clients'])
                     <div class="w-full xl:w-1/3 md:w-1/2 p-4">
                         <div class="border border-gray-400 p-6 rounded-lg">
                             <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">
@@ -176,8 +176,8 @@
 
             <div class="flex flex-wrap p-4">
                 @cannot('manage-apps')
-                    @canany(['manage-department', 'create-teams', 'manage-tasks', 'manage-clients'])
-                        @cannot('manage-clients')
+                    @canany(['manage-department', 'create-teams', 'manage-tasks', 'create-clients'])
+                        @cannot('create-clients')
                             <div class="w-full xl:w-1/3 md:w-1/2 p-4">
                                 <div class="border border-gray-400 p-6 rounded-lg">
                                     <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-pink-100 text-pink-500 mb-4">
