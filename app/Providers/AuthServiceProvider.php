@@ -43,17 +43,32 @@ class AuthServiceProvider extends ServiceProvider
             return $user->role_id === User::IS_SALES;
         });
         
-        Gate::define('create-teams', function(User $user, Project $project)
+        Gate::define('create-teams', function(User $user)
         {
-            $isAdmin = $user->role_id === User::IS_ADMIN;
-            $isManager = $user->role_id === User::IS_MGR;
-
-            return (($isAdmin || $isManager) && $project->users->count() === 0);
+            return $user->role_id === User::IS_PM;
         });
         
         Gate::define('create-tasks', function(User $user)
         {
             return in_array($user->role_id, User::IS_DEV_TEAM);
+        });
+        
+        Gate::define('create-project-teams', function(User $user, Project $project)
+        {
+            $isAdmin = $user->role_id === User::IS_ADMIN;
+            $isManager = $user->role_id === User::IS_MGR;
+
+            return (($isAdmin || $isManager) && $project->load('users')->users->count() === 0);
+        });
+        
+        Gate::define('manage-project-tasks', function(User $user, Project $project)
+        {
+            $isAdmin = $user->role_id === User::IS_ADMIN;
+            $isManager = $user->role_id === User::IS_MGR;
+            $isPM = $user->role_id === User::IS_PM;
+            $pmProject = $project->users()->first()->pivot->pm_id;
+
+            return (($isAdmin || $isManager || $isPM) && ($pmProject && $project->users->count() > 0));
         });
 
         Gate::define('manage-sub-tasks', function(User $user, Task $task)
