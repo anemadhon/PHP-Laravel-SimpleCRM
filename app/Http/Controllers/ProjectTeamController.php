@@ -31,7 +31,7 @@ class ProjectTeamController extends Controller
      */
     public function create(Project $project)
     {
-        if (!Gate::any(['manage-apps', 'manage-department']) && $project->users->count() !== 0) {
+        if (!Gate::allows('create-teams')) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -54,7 +54,7 @@ class ProjectTeamController extends Controller
      */
     public function store(TeamRequest $request, Project $project)
     {
-        if (!Gate::any(['manage-apps', 'manage-department']) && $project->users->count() !== 0) {
+        if (!Gate::allows('create-teams')) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 

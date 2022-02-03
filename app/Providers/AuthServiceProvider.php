@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -42,9 +43,12 @@ class AuthServiceProvider extends ServiceProvider
             return $user->role_id === User::IS_SALES;
         });
         
-        Gate::define('create-teams', function(User $user)
+        Gate::define('create-teams', function(User $user, Project $project)
         {
-            return $user->role_id === User::IS_PM;
+            $isAdmin = $user->role_id === User::IS_ADMIN;
+            $isManager = $user->role_id === User::IS_MGR;
+
+            return (($isAdmin || $isManager) && $project->users->count() === 0);
         });
         
         Gate::define('create-tasks', function(User $user)
