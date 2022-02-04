@@ -57,10 +57,10 @@ class AuthServiceProvider extends ServiceProvider
         {
             $isAdmin = $user->role_id === User::IS_ADMIN;
             $isManager = $user->role_id === User::IS_MGR;
-            $pmProject = $user->id === $task->load('project')->project->load('users')->users()->first()->pivot->pm_id;
+            $pmProject = $user->id === $task->project->users->first()->pivot->pm_id;
             $ownerTask = $user->id === $task->created_by;
             $picTask = $user->id === $task->assigned_to;
-            $hasTeam = $task->load('project')->project->load('users')->users()->count() > 0;
+            $hasTeam = $task->project->users->count() > 0;
 
             return ($hasTeam && ($isAdmin || $isManager || $pmProject || $ownerTask || $picTask));
         });
@@ -69,9 +69,9 @@ class AuthServiceProvider extends ServiceProvider
         {
             $isAdmin = $user->role_id === User::IS_ADMIN;
             $isManager = $user->role_id === User::IS_MGR;
-            $hasNoTeam = $project->load('users')->users->count() === 0;
+            $hasNoTeam = $project->users_count === 0;
 
-            return (($isAdmin || $isManager) && $hasNoTeam);
+            return ($hasNoTeam && ($isAdmin || $isManager));
         });
         
         Gate::define('manage-project-tasks', function(User $user, Project $project)
@@ -79,10 +79,10 @@ class AuthServiceProvider extends ServiceProvider
             $isAdmin = $user->role_id === User::IS_ADMIN;
             $isManager = $user->role_id === User::IS_MGR;
             $isPM = $user->role_id === User::IS_PM;
-            $pmProject = $user->id === $project->users()->first()->pivot->pm_id;
-            $hasTeam = $project->users->count() > 0;
+            $pmProject = $user->id === $project->users->first()?->pivot->pm_id;
+            $hasTeam = $project->users_count > 0;
 
-            return (($isAdmin || $isManager || $isPM) && ($pmProject && $hasTeam));
+            return (($isAdmin || $isManager || $isPM) || ($pmProject && $hasTeam));
         });
 
         Gate::define('manage-sub-tasks', function(User $user, Task $task)

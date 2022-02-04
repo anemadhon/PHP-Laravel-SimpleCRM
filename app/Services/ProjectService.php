@@ -11,10 +11,10 @@ class ProjectService
     public function lists(Authenticatable $user)
     {
         if ($user->can('create-teams') || $user->can('create-tasks')) {
-            return $user->projects()->with(['state', 'level', 'client'])->withCount(['tasks', 'users'])->paginate(4);
+            return $user->projects()->with(['state', 'level', 'client', 'users'])->withCount(['tasks', 'users'])->paginate(4);
         }
         
-        return Project::with(['state', 'level', 'client'])->withCount(['tasks', 'users'])->paginate(4);
+        return Project::with(['state', 'level', 'client', 'users'])->withCount(['tasks', 'users'])->paginate(4);
     }
 
     public function attachment(array $files, Project $project, string $flag = '')
