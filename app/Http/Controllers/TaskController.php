@@ -75,7 +75,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        if (!Gate::allows('manage-apps') || !in_array(auth()->id(), [$task->created_by, $task->assigned_to])) {
+        if (!Gate::allows('edit-tasks', $task)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -101,7 +101,7 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, Task $task)
     {
-        if (!Gate::allows('manage-apps') || !in_array(auth()->id(), [$task->created_by, $task->assigned_to])) {
+        if (!Gate::allows('edit-tasks', $task)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 

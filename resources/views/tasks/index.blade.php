@@ -95,12 +95,16 @@
                                         </button>
                                     </a>
                                 @endcan
-                                @if (auth()->user()->can('manage-apps') || in_array(auth()->id(), [$task->created_by, $task->assigned_to]))
+                                @if (auth()->user()->can('edit-tasks', $task))
                                     <a href="{{ route('tasks.edit', ['task' => $task]) }}">
                                         <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
                                             <i class="fas fa-pen"></i> {{ __('Edit') }}
                                         </button>
                                     </a>
+                                @else
+                                    <button class="bg-emerald-500 text-white font-bold uppercase text-xs px-2 py-1 rounded-full shadow outline-none ease-linear transition-all duration-150 hover:shadow-md cursor-not-allowed" disabled type="button">
+                                        <i class="fas fa-pen"></i> {{ __('Edit') }}
+                                    </button>
                                 @endif
                             </td>
                         </tr>
