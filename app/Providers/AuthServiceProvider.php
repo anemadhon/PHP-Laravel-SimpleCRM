@@ -65,6 +65,17 @@ class AuthServiceProvider extends ServiceProvider
             return ($hasTeam && ($isAdmin || $isManager || $pmProject || $ownerTask || $picTask));
         });
         
+        Gate::define('edit-user-tasks', function(User $user, Task $task)
+        {
+            $isAdmin = $user->role_id === User::IS_ADMIN;
+            $isManager = $user->role_id === User::IS_MGR;
+            $isSales = $user->role_id === User::IS_SALES;
+            $ownerTask = $user->id === $task->created_by;
+            $picTask = $user->id === $task->assigned_to;
+
+            return ($isAdmin || $isManager || $isSales || $ownerTask || $picTask);
+        });
+        
         Gate::define('create-project-teams', function(User $user, Project $project)
         {
             $isAdmin = $user->role_id === User::IS_ADMIN;

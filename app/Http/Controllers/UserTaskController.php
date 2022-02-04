@@ -39,7 +39,7 @@ class UserTaskController extends Controller
      */
     public function edit(User $user, Task $task)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
+        if (!Gate::allows('edit-user-tasks', $task)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -66,7 +66,7 @@ class UserTaskController extends Controller
      */
     public function update(TaskRequest $request, User $user, Task $task)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
+        if (!Gate::allows('edit-user-tasks', $task)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         
