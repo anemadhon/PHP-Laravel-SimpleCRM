@@ -43,7 +43,7 @@ class ClientProjectTaskController extends Controller
      */
     public function edit(Client $client, Project $project, Task $task)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
+        if (!Gate::allows('edit-user-tasks', $task)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -72,7 +72,7 @@ class ClientProjectTaskController extends Controller
      */
     public function update(TaskRequest $request, Client $client, Project $project, Task $task)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
+        if (!Gate::allows('edit-user-tasks', $task)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         
