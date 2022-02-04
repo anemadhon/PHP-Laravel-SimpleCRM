@@ -20,7 +20,7 @@ class ClientProjectController extends Controller
      */
     public function index(Client $client)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -38,7 +38,7 @@ class ClientProjectController extends Controller
      */
     public function create(Client $client)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -60,7 +60,7 @@ class ClientProjectController extends Controller
      */
     public function store(ProjectRequest $request, Client $client)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -78,7 +78,7 @@ class ClientProjectController extends Controller
      */
     public function edit(Client $client, Project $project)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -102,7 +102,7 @@ class ClientProjectController extends Controller
      */
     public function update(ProjectRequest $request, Client $client, Project $project)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         

@@ -10,7 +10,7 @@ class DashboardController extends Controller
     public function __invoke()
     {
         $isPM = auth()->user()->can('create-teams');
-        $isSales = auth()->user()->can('create-clients');
+        $isSales = auth()->user()->can('sale-products');
         $isDevTeam = auth()->user()->can('create-tasks');
 
         return view('dashboard', [

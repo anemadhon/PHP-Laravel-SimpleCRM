@@ -8,7 +8,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function projects(User $user)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         

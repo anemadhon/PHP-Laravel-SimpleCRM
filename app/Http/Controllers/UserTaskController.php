@@ -20,7 +20,7 @@ class UserTaskController extends Controller
      */
     public function index(User $user)
     {
-        if (!Gate::any(['manage-apps', 'manage-department', 'create-clients'])) {
+        if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 

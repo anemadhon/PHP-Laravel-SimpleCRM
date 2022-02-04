@@ -38,7 +38,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->role_id === User::IS_MGR;
         });
         
-        Gate::define('create-clients', function(User $user)
+        Gate::define('sale-products', function(User $user)
         {
             return $user->role_id === User::IS_SALES;
         });
