@@ -53,6 +53,16 @@ class AuthServiceProvider extends ServiceProvider
             return in_array($user->role_id, User::IS_DEV_TEAM);
         });
 
+        Gate::define('edit-projects', function(User $user, Project $project)
+        {
+            $isAdmin = $user->role_id === User::IS_ADMIN;
+            $isManager = $user->role_id === User::IS_MGR;
+            $isSales = $user->role_id === User::IS_SALES;
+            $pmProject = $user->id === $project->users->first()?->pivot->pm_id;
+
+            return ($isAdmin || $isManager || $isSales || $pmProject);
+        });
+
         Gate::define('edit-tasks', function(User $user, Task $task)
         {
             $isAdmin = $user->role_id === User::IS_ADMIN;
@@ -84,7 +94,7 @@ class AuthServiceProvider extends ServiceProvider
 
             return ($hasNoTeam && ($isAdmin || $isManager));
         });
-        
+
         Gate::define('manage-project-tasks', function(User $user, Project $project)
         {
             $isAdmin = $user->role_id === User::IS_ADMIN;

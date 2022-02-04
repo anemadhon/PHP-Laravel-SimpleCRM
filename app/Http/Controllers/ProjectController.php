@@ -100,7 +100,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        if (Gate::allows('develop-products')) {
+        if (!Gate::allows('edit-projects', $project)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -123,7 +123,7 @@ class ProjectController extends Controller
      */
     public function update(ProjectRequest $request, Project $project)
     {
-        if (Gate::allows('develop-products')) {
+        if (!Gate::allows('edit-projects', $project)) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         
