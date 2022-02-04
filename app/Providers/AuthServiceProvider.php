@@ -88,9 +88,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-sub-tasks', function(User $user, Task $task)
         {
             $isAdmin = $user->role_id === User::IS_ADMIN;
+            $isManager = $user->role_id === User::IS_MGR;
             $picTask = $user->id === $task->assigned_to;
 
-            return $isAdmin || $picTask;
+            return $isAdmin || $isManager || $picTask;
         });
     }
 }
