@@ -107,7 +107,7 @@
                                         <i class="far fa-eye"></i> {{ __('Details') }}
                                     </button>
                                 </a>
-                                @cannot('create-tasks')
+                                @cannot('develop-products')
                                     <a href="{{ route('projects.edit', ['project' => $project]) }}">
                                         <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="button">
                                             <i class="fas fa-pen"></i> {{ __('Edit') }}
