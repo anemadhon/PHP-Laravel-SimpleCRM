@@ -89,11 +89,10 @@ class AuthServiceProvider extends ServiceProvider
         {
             $isAdmin = $user->role_id === User::IS_ADMIN;
             $isManager = $user->role_id === User::IS_MGR;
-            $isPM = $user->role_id === User::IS_PM;
             $pmProject = $user->id === $project->users->first()?->pivot->pm_id;
             $hasTeam = $project->users_count > 0;
 
-            return (($isAdmin || $isManager || $isPM) || ($pmProject && $hasTeam));
+            return (($isAdmin || $isManager) || ($pmProject && $hasTeam));
         });
 
         Gate::define('manage-sub-tasks', function(User $user, Task $task)
