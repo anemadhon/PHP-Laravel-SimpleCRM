@@ -50,7 +50,7 @@ class Project extends Model
     public function users()
     {
         return $this->belongsToMany(User::class)
-                ->withPivot(['pm_id'])
+                ->withPivot(['pm_id', 'status'])
                 ->using(ProjectUser::class);
     }
 

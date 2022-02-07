@@ -11,6 +11,7 @@ use App\Services\ProjectService;
 use App\Models\ProjectAttachment;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProjectRequest;
+use App\Models\ProjectUser;
 
 class ProjectController extends Controller
 {
@@ -100,7 +101,6 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        // dd($project);
         if (!Gate::allows('edit-projects', $project->load('users'))) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
@@ -132,6 +132,13 @@ class ProjectController extends Controller
         
         if ($request->hasFile('attachment')) {
             (new ProjectService())->attachment($request->file('attachment'), $project, $request->flag);
+        }
+
+        if ($request->validated()['state_id'] == 7) {
+            foreach ($project->users()->get() as $user) {
+                $user->pivot->status = ProjectUser::DONE;
+                $user->pivot->save();
+            }
         }
 
         return redirect()->route('projects.index')->with('success', 'Data Updated');
