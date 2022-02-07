@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Models\Project;
-use Illuminate\Contracts\Auth\Authenticatable;
+use App\Models\ProjectUser;
 use Illuminate\Support\Facades\File;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class ProjectService
 {
@@ -56,5 +58,56 @@ class ProjectService
         $users[] = $ids['qa'];
 
         return $users;
+    }
+
+    public function availabilityStatusCheck(array $ids)
+    {
+        $idle = [];
+        $arrayID = [];
+        $teams = $ids['dev'];
+
+        $teams[] = $ids['qa'];
+
+        foreach ($teams as $id) {
+            $onTeams = ProjectUser::where('user_id', $id)->where('status', ProjectUser::ON_START)->first();
+
+            if ($onTeams === null) {
+                $idle[] = 'idle';
+            }
+            
+            if ($onTeams) {
+                $projects = Project::find($onTeams->project_id);
+
+                if ($projects->state_id !== 5) {
+                    $arrayID[] = $id;
+                }
+                
+            }
+        }
+
+        if (count($idle) === count($teams)) {
+            return [
+                'ids' => 0,
+                'status' => 'available'
+            ];
+        }
+
+        return [
+            'ids' => $arrayID,
+            'status' => 'on_project'
+        ];
+    }
+
+    public function formatErrors(array $ids)
+    {
+        $errors = [];
+
+        foreach ($ids as $id) {
+            $user = User::find($id, ['name']);
+
+            $errors[] = "{$user->name} has assigned on others Project";
+        }
+
+        return $errors;
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Project;
 use App\Http\Requests\TeamRequest;
+use App\Models\ProjectUser;
 use App\Services\ProjectService;
 use Illuminate\Support\Facades\Gate;
 
@@ -31,7 +32,7 @@ class ProjectTeamController extends Controller
      */
     public function create(Project $project)
     {
-        if (!Gate::allows('create-project-teams', $project)) {
+        if (!Gate::allows('create-project-teams', $project->loadCount('users'))) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -54,12 +55,17 @@ class ProjectTeamController extends Controller
      */
     public function store(TeamRequest $request, Project $project)
     {
-        if (!Gate::allows('create-project-teams', $project)) {
+        if (!Gate::allows('create-project-teams', $project->loadCount('users'))) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
-        //check apakah developer available
-        //check apakah qa available
+        $devTeamAvailability = (new ProjectService())->availabilityStatusCheck($request->safe()->only(['dev', 'qa']));
+        
+        if ($devTeamAvailability['status'] !== 'available') {
+            $errors = (new ProjectService())->formatErrors($devTeamAvailability['ids']);
+            
+            return back()->withErrors($errors);
+        }
 
         $teams = (new ProjectService())->team($request->safe()->only(['pm', 'dev', 'qa']));
         $pm = ['pm_id' => $request->safe()->only('pm')['pm']];
