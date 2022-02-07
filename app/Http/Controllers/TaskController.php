@@ -75,7 +75,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        if (!Gate::allows('edit-tasks', $task)) {
+        if (!Gate::allows('edit-tasks', $task->load(['project', 'project.users']))) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -101,7 +101,7 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, Task $task)
     {
-        if (!Gate::allows('edit-tasks', $task)) {
+        if (!Gate::allows('edit-tasks', $task->load(['project', 'project.users']))) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 

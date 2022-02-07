@@ -34,7 +34,7 @@ class ProjectTaskController extends Controller
      */
     public function create(Project $project)
     {
-        if (!Gate::allows('manage-project-tasks', $project)) {
+        if (!Gate::allows('manage-project-tasks', $project->load('users')->loadCount('users'))) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -59,7 +59,7 @@ class ProjectTaskController extends Controller
      */
     public function store(TaskRequest $request, Project $project)
     {
-        if (!Gate::allows('manage-project-tasks', $project)) {
+        if (!Gate::allows('manage-project-tasks', $project->load('users')->loadCount('users'))) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -77,7 +77,7 @@ class ProjectTaskController extends Controller
      */
     public function edit(Project $project, Task $task)
     {
-        if (!Gate::allows('manage-project-tasks', $project)) {
+        if (!Gate::allows('manage-project-tasks', $project->load('users')->loadCount('users'))) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -104,7 +104,7 @@ class ProjectTaskController extends Controller
      */
     public function update(TaskRequest $request, Project $project, Task $task)
     {
-        if (!Gate::allows('manage-project-tasks', $project)) {
+        if (!Gate::allows('manage-project-tasks', $project->load('users')->loadCount('users'))) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
