@@ -23,7 +23,8 @@ class TaskController extends Controller
         $tasks = (new TaskService())->lists(auth()->user());
 
         return view('tasks.index', [
-            'tasks' => $tasks
+            'tasks' => $tasks['own_tasks'],
+            'team_tasks' => $tasks['team_tasks']
         ]);
     }
 
