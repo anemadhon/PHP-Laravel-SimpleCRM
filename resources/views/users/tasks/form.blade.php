@@ -44,10 +44,7 @@
                             <div class="relative w-full mb-3">
                                 <x-label for="project" :value="__('Project')"/>
                                 <select name="project_id" id="project" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                    <option value="">Select Project</option>
-                                    @foreach ($projects as $project)
-                                        <option value="{{ $project->id }}" {{ ($task->project_id == $project->id) || old('project_id') == $project->id ? 'selected' : '' }}>{{ $project->name }}</option>
-                                    @endforeach
+                                    <option value="{{ $task->project_id }}" selected>{{ $task->project->name }}</option>
                                 </select>
                             </div>
                         </div>

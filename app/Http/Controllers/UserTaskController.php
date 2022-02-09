@@ -26,7 +26,9 @@ class UserTaskController extends Controller
 
         return view('users.tasks.index', [
             'user' => $user,
-            'tasks' => $user->tasks()->with(['state', 'level', 'project', 'project.client'])->paginate(4)
+            'tasks' => $user->tasks()->select(['id', 'name', 'slug', 'state_id', 'level_id', 'project_id'])
+                        ->with(['state:id,name', 'level:id,name', 'project:id,name,client_id', 'project.client:id,name'])
+                        ->paginate(4)
         ]);
     }
 
@@ -50,9 +52,8 @@ class UserTaskController extends Controller
             {
                 return $query->forDevelopmentTeam();
             })->orderBy('id')->get(['id', 'name']),
-            'projects' => Project::orderBy('id')->get(['id', 'name']),
             'user' => $user->load('role'),
-            'task' => $task
+            'task' => $task->load('project')
         ]);
     }
 

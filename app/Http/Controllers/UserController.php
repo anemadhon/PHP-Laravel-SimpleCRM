@@ -12,9 +12,10 @@ class UserController extends Controller
         if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
-
+        
         return view('users.index', [
-            'users' => User::notAdmin()->with(['role', 'skills', 'tasks'])->withCount('projects')->paginate(4),
+            'users' => User::select(['id', 'name', 'username', 'email', 'role_id'])->notAdmin()
+                        ->with(['role:id,name', 'skills:id,name'])->withCount('projects')->paginate(4),
             'is_mgr' => User::IS_MGR,
             'is_sales' => User::IS_SALES
         ]);
@@ -28,7 +29,7 @@ class UserController extends Controller
         
         return view('users.projects.index', [
             'user' => $user,
-            'projects' => $user->projects()->with(['state', 'level'])->withCount(['tasks' => function($query) use ($user)
+            'projects' => $user->projects()->select(['id', 'name', 'state_id', 'level_id'])->with(['state:id,name', 'level:id,name'])->withCount(['tasks' => function($query) use ($user)
             {
                 return $query->where('assigned_to', $user->id);
             }])->paginate(4)
