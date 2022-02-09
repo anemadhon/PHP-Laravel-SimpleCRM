@@ -79,7 +79,7 @@
                                 <select name="level_id" id="level" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select Level</option>
                                     @foreach ($levels as $level)
-                                        <option value="{{ $level->id }}" {{ ($state === 'Update' && $project->level_id === $level->id) || old('level_id') === $level->id ? 'selected' : '' }}>{{ $level->name }}</option>
+                                        <option value="{{ $level->id }}" {{ ($state === 'Update' && $project->level_id == $level->id) || old('level_id') == $level->id ? 'selected' : '' }}>{{ $level->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -90,7 +90,7 @@
                                 <select name="state_id" id="state" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select State</option>
                                     @foreach ($states as $project_state)
-                                        <option value="{{ $project_state->id }}" {{ ($state === 'Update' && $project->state_id === $project_state->id) || old('state_id') === $project_state->id ? 'selected' : '' }}>{{ $project_state->name }}</option>
+                                        <option value="{{ $project_state->id }}" {{ ($state === 'Update' && $project->state_id == $project_state->id) || old('state_id') == $project_state->id ? 'selected' : '' }}>{{ $project_state->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

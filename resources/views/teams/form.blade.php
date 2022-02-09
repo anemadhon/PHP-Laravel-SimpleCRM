@@ -31,7 +31,7 @@
                                 <select name="pm" id="pm" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select User</option>
                                     @foreach ($users_pm as $pm)
-                                        <option value="{{ $pm->id }}" {{ old('pm') === $pm->id ? 'selected' : '' }}>{{ $pm->name }} - {{ $pm->role->name }}</option>
+                                        <option value="{{ $pm->id }}" {{ old('pm') == $pm->id ? 'selected' : '' }}>{{ $pm->name }} - {{ $pm->role->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -42,7 +42,7 @@
                                 <select name="dev[]" id="dev" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required multiple>
                                     <option value="">Select User</option>
                                     @foreach ($users_dev as $dev)
-                                        <option value="{{ $dev->id }}" {{ old('dev') === $dev->id ? 'selected' : '' }}>{{ $dev->name }} - {{ $dev->role->name }}</option>
+                                        <option value="{{ $dev->id }}" {{ in_array($dev->id, old('dev', [])) ? 'selected' : '' }}>{{ $dev->name }} - {{ $dev->role->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -53,7 +53,7 @@
                                 <select name="qa" id="qa" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select User</option>
                                     @foreach ($users_qa as $qa)
-                                        <option value="{{ $qa->id }}" {{ old('qa') === $qa->id ? 'selected' : '' }}>{{ $qa->name }} - {{ $qa->role->name }}</option>
+                                        <option value="{{ $qa->id }}" {{ old('qa') == $qa->id ? 'selected' : '' }}>{{ $qa->name }} - {{ $qa->role->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

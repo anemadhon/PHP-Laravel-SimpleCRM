@@ -46,7 +46,7 @@
                                 <select name="type_id" id="type" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="">Select Type</option>
                                     @foreach ($types as $type)
-                                        <option value="{{ $type->id }}" {{ ($state === 'Update' && $client->type_id === $type->id) || old('type_id') === $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
+                                        <option value="{{ $type->id }}" {{ ($state === 'Update' && $client->type_id == $type->id) || old('type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

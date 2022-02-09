@@ -103,7 +103,7 @@
                                 <x-label for="skills" :value="__('Skills')"/>
                                 <select name="skill_id[]" id="skills" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" multiple>
                                     @foreach ($skills as $skill)
-                                        <option value="{{ $skill->id }}" {{ (in_array($skill->id, $user_skills) || old('skill_id') === $skill->id) ? 'selected' : '' }}>{{ $skill->name }}</option>
+                                        <option value="{{ $skill->id }}" {{ (in_array($skill->id, $user_skills) || in_array($skill->id, old('skill_id', []))) ? 'selected' : '' }}>{{ $skill->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
