@@ -6,6 +6,7 @@ use App\Models\Level;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\ProjectState;
+use App\Services\ProjectService;
 use App\Models\ProjectAttachment;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProjectRequest;
@@ -64,7 +65,11 @@ class ClientProjectController extends Controller
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
-        $client->projects()->create($request->validated());
+        $project = $client->projects()->create($request->validated());
+
+        if ($request->hasFile('attachment')) {
+            (new ProjectService())->attachment($request->file('attachment'), $project);
+        }
 
         return redirect()->route('projects.index')->with('success', 'Data Saved');
     }
