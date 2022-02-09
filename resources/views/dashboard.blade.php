@@ -66,7 +66,7 @@
                             </div>
                             <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Project States</h2>
                             <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
-                                @foreach ($dashboard['state_projects'] as $state_project)
+                                @foreach ($dashboard['state_projects_tasks'] as $state_project)
                                 <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
                                     <td class="py-1">{{ $state_project->name }}</td>
                                     <td class="text-right">{{ $state_project->projects_count }}</td>
@@ -84,7 +84,7 @@
                             </div>
                             <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Task States</h2>
                             <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
-                                @foreach ($dashboard['state_tasks'] as $state_task)
+                                @foreach ($dashboard['state_projects_tasks'] as $state_task)
                                 <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
                                     <td class="py-1">{{ $state_task->name }}</td>
                                     <td class="text-right">{{ $state_task->tasks_count }}</td>
@@ -104,7 +104,7 @@
                             </div>
                             <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Levels - Project</h2>
                             <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
-                                @foreach ($dashboard['level_projects'] as $project)
+                                @foreach ($dashboard['level_projects_tasks'] as $project)
                                     <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
                                         <td class="py-1">{{ $project->name }}</td>
                                         <td class="text-right">{{ $project->projects_count }}</td>
@@ -122,7 +122,7 @@
                             </div>
                             <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Levels - Task</h2>
                             <table class="leading-relaxed text-sm px-6 items-center w-full bg-transparent border-collapse">
-                                @foreach ($dashboard['level_tasks'] as $task)
+                                @foreach ($dashboard['level_projects_tasks'] as $task)
                                     <tr class="align-middle border border-solid text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
                                         <td class="py-1">{{ $task->name }}</td>
                                         <td class="text-right">{{ $task->tasks_count }}</td>
