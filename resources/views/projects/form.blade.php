@@ -48,7 +48,7 @@
                                             placeholder="{{ __('Start Date') }}"
                                             name="started_at"
                                             id="start"
-                                            value="{{ old('started_at', $project->started_at->toDateString() ?? '')  }}"
+                                            value="{{ old('started_at', (isset($project) ? $project->started_at->toDateString() : ''))  }}"
                                             required
                                             onfocus="(this.type='date')"
                                             onblur="(this.type='text')"
@@ -61,7 +61,7 @@
                                             placeholder="{{ __('End Date') }}"
                                             name="ended_at"
                                             id="end"
-                                            value="{{ old('ended_at', $project->ended_at->toDateString() ?? '')  }}"
+                                            value="{{ old('ended_at', (isset($project) ? $project->ended_at->toDateString() : ''))  }}"
                                             required
                                             onfocus="(this.type='date')"
                                             onblur="(this.type='text')"
