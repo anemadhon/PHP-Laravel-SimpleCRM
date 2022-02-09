@@ -31,7 +31,7 @@ class ProjectRequest extends FormRequest
             'name' => ['required', 'string', 'max:255', $unique], 
             'description' => ['required', 'string', 'max:510'], 
             'started_at' => ['required'], 
-            'ended_at' => ['required'],
+            'ended_at' => ['required', 'date', "after:{$this->started_at}"],
             'state_id' => ['required', 'exists:project_states,id'], 
             'level_id' => ['required', 'exists:levels,id'],
             'client_id' => ['required', 'exists:clients,id'],
@@ -43,6 +43,9 @@ class ProjectRequest extends FormRequest
     public function messages()
     {
         return [
+            'started_at.required' => 'Please Specify Starting Date',
+            'ended_at.required' => 'Please Specify Ending Date',
+            'ended_at.after' => 'Ending Date Must Be Greater Than Starting Date',
             'state_id.required' => 'Please Select Project States',
             'state_id.exists' => 'Please Select Project States Correctly',
             'level_id.required' => 'Please Select Project Levels',
