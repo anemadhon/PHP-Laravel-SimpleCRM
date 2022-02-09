@@ -48,8 +48,10 @@
                                             placeholder="{{ __('Start Date') }}"
                                             name="started_at"
                                             id="start"
-                                            value="{{ old('started_at', $project->started_at ?? '')  }}"
+                                            value="{{ old('started_at', $project->started_at->toDateString() ?? '')  }}"
                                             required
+                                            onfocus="(this.type='date')"
+                                            onblur="(this.type='text')"
                                     />
                                 </div>
                                 <span class="mx-4 pt-2 text-gray-500">to</span>
@@ -59,8 +61,10 @@
                                             placeholder="{{ __('End Date') }}"
                                             name="ended_at"
                                             id="end"
-                                            value="{{ old('ended_at', $project->ended_at ?? '')  }}"
+                                            value="{{ old('ended_at', $project->ended_at->toDateString() ?? '')  }}"
                                             required
+                                            onfocus="(this.type='date')"
+                                            onblur="(this.type='text')"
                                     />
                                 </div>
                             </div>
