@@ -63,8 +63,8 @@ class ProjectTeamController extends Controller
         
         if ($devTeamAvailability['status'] !== 'available') {
             $errors = (new ProjectService())->formatErrors($devTeamAvailability['ids']);
-            
-            return back()->withErrors($errors);
+
+            return back()->withErrors($errors)->withInput();
         }
 
         $teams = (new ProjectService())->team($request->safe()->only(['pm', 'dev', 'qa']));
