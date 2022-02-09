@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Models\Project;
+use App\Models\ProjectState;
 use App\Models\ProjectUser;
 use Illuminate\Support\Facades\File;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -78,7 +79,7 @@ class ProjectService
             if ($onTeams) {
                 $projects = Project::find($onTeams->project_id);
 
-                if ($projects->state_id !== 5) {
+                if ($projects->state_id !== ProjectState::LIVE) {
                     $arrayID[] = $id;
                 }
                 

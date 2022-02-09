@@ -134,7 +134,7 @@ class ProjectController extends Controller
             (new ProjectService())->attachment($request->file('attachment'), $project, $request->flag);
         }
 
-        if ($request->validated()['state_id'] == 7) {
+        if ($request->validated()['state_id'] == ProjectState::CLOSE) {
             foreach ($project->users()->get() as $user) {
                 $user->pivot->status = ProjectUser::DONE;
                 $user->pivot->save();

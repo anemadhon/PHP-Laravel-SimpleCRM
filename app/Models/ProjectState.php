@@ -10,6 +10,9 @@ class ProjectState extends Model
 {
     use HasFactory, Sluggable;
 
+    const LIVE = 5;
+    const CLOSE = 7;
+
     protected $fillable = [
         'name', 'slug', 'for',
         'description'
