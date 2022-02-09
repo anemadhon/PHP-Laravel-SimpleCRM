@@ -44,7 +44,7 @@ class ProjectController extends Controller
             'state' => 'New',
             'mimes' => implode(',', ProjectAttachment::MIME_TYPES),
             'clients' => Client::orderBy('id')->get(['id', 'name']),
-            'states' => ProjectState::orderBy('id')->get(['id', 'name']),
+            'states' => ProjectState::orderBy('id')->take(3)->get(['id', 'name']),
             'levels' => Level::orderBy('id')->get(['id', 'name'])
         ]);
     }
