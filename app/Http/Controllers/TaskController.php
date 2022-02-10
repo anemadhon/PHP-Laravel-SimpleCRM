@@ -87,9 +87,7 @@ class TaskController extends Controller
                         {
                             return $query->forDevelopmentTeam();
                         })->orderBy('id')->get(['id', 'name']),
-            'projects' => Project::orderBy('id')->get(['id', 'name']),
-            'users' => User::notAdmin()->notMgr()->with('role')->whereIn('role_id', [3,4])->orderBy('id')->get(['id', 'name', 'role_id']),
-            'task' => $task
+            'task' => $task->load(['project', 'user', 'user.role'])
         ]);
     }
 
