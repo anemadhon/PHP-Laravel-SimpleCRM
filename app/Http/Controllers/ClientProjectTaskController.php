@@ -54,10 +54,9 @@ class ClientProjectTaskController extends Controller
             {
                 return $query->forDevelopmentTeam();
             })->orderBy('id')->get(['id', 'name']),
-            'users' => User::with('role')->orderBy('id')->get(['id', 'name', 'role_id']),
             'client' => $client,
             'project' => $project,
-            'task' => $task
+            'task' => $task->load(['user', 'user.role'])
         ]);
     }
 
