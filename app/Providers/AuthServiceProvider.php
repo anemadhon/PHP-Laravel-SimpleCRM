@@ -102,7 +102,7 @@ class AuthServiceProvider extends ServiceProvider
             $pmProject = $user->id === $project->users->first()?->pivot->pm_id;
             $hasTeam = $project->users_count > 0;
 
-            return ($hasTeam && ($isAdmin || $isManager || $pmProject));
+            return ($isAdmin || $isManager || ($hasTeam && $pmProject));
         });
 
         Gate::define('manage-sub-tasks', function(User $user, Task $task)
