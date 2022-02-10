@@ -29,7 +29,10 @@ Route::group(['middleware' => 'auth'], function()
     Route::group([
         'prefix' => 'admin',
         'as' => 'admin.',
-        'middleware' => \App\Http\Middleware\IsAdminMiddleware::class
+        'middleware' => [
+            \App\Http\Middleware\IsAdminMiddleware::class,
+            'can:manage-apps'
+        ]
     ], function()
     {
         Route::resource('client/types', \App\Http\Controllers\Admin\ClientTypeController::class)

@@ -8,11 +8,6 @@ use App\Models\Level;
 
 class LevelController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorize('manage-apps');
-    }
-    
     /**
      * Display a listing of the resource.
      *
