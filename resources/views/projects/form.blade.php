@@ -73,7 +73,14 @@
                             <div class="relative w-full mb-3">
                                 <x-label for="owner" :value="__('Owner')"/>
                                 <select name="client_id" id="owner" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                    <option value="{{ $project->client_id }}" selected>{{ $project->client->name }}</option>
+                                    @if ($state === 'Update')
+                                        <option value="{{ $project->client_id }}" selected>{{ $project->client->name }}</option>
+                                    @else
+                                        <option value="">Select Owner</option>
+                                        @foreach ($clients as $client)
+                                            <option value="{{ $client->id }}" {{ ($state === 'Update' && $project->client_id == $client->id) || old('client_id') == $client->id ? 'selected' : '' }}>{{ $client->name }}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
                         </div>
