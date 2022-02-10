@@ -108,10 +108,9 @@ class ProjectController extends Controller
         return view('projects.form', [
             'state' => 'Update',
             'mimes' => implode(',', ProjectAttachment::MIME_TYPES),
-            'clients' => Client::orderBy('id')->get(['id', 'name']),
             'states' => ProjectState::orderBy('id')->get(['id', 'name']),
             'levels' => Level::orderBy('id')->get(['id', 'name']),
-            'project' => $project
+            'project' => $project->load('client')
         ]);
     }
 
