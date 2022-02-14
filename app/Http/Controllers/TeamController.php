@@ -14,7 +14,7 @@ class TeamController extends Controller
         }
         
         return view('teams.index', [
-            'teams' => Project::with(['users', 'users.role', 'users.tasks'])->paginate(4)
+            'teams' => Project::select(['id', 'name'])->with(['users:id,name,role_id', 'users.role:id,name', 'users.tasks:id,assigned_to'])->paginate(4)
         ]);
     }
 }

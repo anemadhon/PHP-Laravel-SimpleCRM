@@ -14,10 +14,10 @@ class ProjectService
     public function lists(Authenticatable $user)
     {
         if ($user->can('manage-products') || $user->can('develop-products')) {
-            return $user->projects()->with(['state', 'level', 'client', 'users'])->withCount(['tasks', 'users'])->paginate(4);
+            return $user->projects()->with(['state:id,name', 'level:id,name', 'client:id,name', 'users'])->withCount(['tasks', 'users'])->paginate(4);
         }
         
-        return Project::with(['state', 'level', 'client', 'users'])->withCount(['tasks', 'users'])->paginate(4);
+        return Project::with(['state:id,name', 'level:id,name', 'client:id,name', 'users'])->withCount(['tasks', 'users'])->paginate(4);
     }
 
     public function attachment(array $files, Project $project, string $flag = '')

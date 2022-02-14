@@ -29,7 +29,7 @@ class ClientProjectTaskController extends Controller
         return view('clients.projects.tasks.index', [
             'client' => $client,
             'project' => $project,
-            'tasks' => $project->tasks()->with(['level', 'state', 'user'])->orderBy('assigned_to')->paginate(4)
+            'tasks' => $project->tasks()->select(['id', 'name', 'level_id', 'state_id', 'assigned_to', 'slug'])->with(['level:id,name', 'state:id,name', 'user:id,name'])->orderBy('assigned_to')->paginate(4)
         ]);
     }
 
@@ -56,7 +56,7 @@ class ClientProjectTaskController extends Controller
             })->orderBy('id')->get(['id', 'name']),
             'client' => $client,
             'project' => $project,
-            'task' => $task->load(['user', 'user.role'])
+            'task' => $task->load(['user:id,name,role_id', 'user.role:id,name'])
         ]);
     }
 

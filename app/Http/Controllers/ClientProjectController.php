@@ -27,7 +27,7 @@ class ClientProjectController extends Controller
 
         return view('clients.projects.index', [
             'client' => $client,
-            'projects' => $client->projects()->with(['state', 'level'])->withCount('tasks')->paginate(4)
+            'projects' => $client->projects()->with(['state:id,name', 'level:id,name'])->withCount('tasks')->paginate(4)
         ]);
     }
 

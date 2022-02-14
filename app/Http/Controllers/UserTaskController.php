@@ -52,8 +52,8 @@ class UserTaskController extends Controller
             {
                 return $query->forDevelopmentTeam();
             })->orderBy('id')->get(['id', 'name']),
-            'user' => $user->load('role'),
-            'task' => $task->load('project')
+            'user' => $user->load('role:id,name'),
+            'task' => $task->load('project:id,name')
         ]);
     }
 

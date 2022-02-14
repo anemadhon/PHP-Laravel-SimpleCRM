@@ -21,7 +21,7 @@ class ClientController extends Controller
         }
 
         return view('clients.index', [
-            'clients' => Client::withCount('projects')->with('type')->paginate(4)
+            'clients' => Client::select(['id', 'name', 'description', 'slug', 'type_id'])->withCount('projects')->with('type:id,name')->paginate(4)
         ]);
     }
 

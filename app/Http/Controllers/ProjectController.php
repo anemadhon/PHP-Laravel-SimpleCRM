@@ -78,10 +78,13 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $details = $project->load(['attachments', 'users', 'users.role', 'tasks', 'tasks.level', 'tasks.state']);
+        $details = $project->load([
+            'level:id,name', 'state:id,name', 'client:id,name', 'attachments', 'users:id,name,role_id', 
+            'users.role:id,name', 'tasks:id,name,level_id,state_id', 'tasks.level:id,name', 'tasks.state:id,name'
+        ]);
         
         return view('projects.show', [
-            'owner' => $project,
+            'owner' => $details,
             'attachments' => $details->attachments,
             'teams' => $details->users,
             'tasks' => $details->tasks,
@@ -111,7 +114,7 @@ class ProjectController extends Controller
             'clients' => Client::orderBy('id')->get(['id', 'name']),
             'states' => ProjectState::orderBy('id')->get(['id', 'name']),
             'levels' => Level::orderBy('id')->get(['id', 'name']),
-            'project' => $project->load('client')
+            'project' => $project->load('client:id,name')
         ]);
     }
 

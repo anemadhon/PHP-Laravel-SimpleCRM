@@ -22,7 +22,7 @@ class SubTaskController extends Controller
     {
         return view('tasks.subs.index', [
             'task' => $task,
-            'subs' => $task->subs()->with(['level', 'state'])->paginate(4)
+            'subs' => $task->subs()->select(['id', 'name', 'level_id', 'state_id', 'slug'])->with(['level:id,name', 'state:id,name'])->paginate(4)
         ]);
     }
 

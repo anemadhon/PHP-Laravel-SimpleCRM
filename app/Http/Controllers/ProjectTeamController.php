@@ -20,7 +20,7 @@ class ProjectTeamController extends Controller
     {
         return view('projects.teams.index', [
             'project' => $project,
-            'teams' => $project->users()->with(['role'])->paginate(4)
+            'teams' => $project->users()->with(['role:id,name'])->paginate(4)
         ]);
     }
 

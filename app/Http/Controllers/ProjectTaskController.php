@@ -22,7 +22,8 @@ class ProjectTaskController extends Controller
     {
         return view('projects.tasks.index', [
             'project' => $project,
-            'tasks' => $project->tasks()->with(['level', 'state', 'user'])->orderBy('assigned_to')->paginate(4)
+            'tasks' => $project->tasks()->select(['id', 'name', 'slug', 'state_id', 'level_id', 'assigned_to'])
+                        ->with(['level:id,name', 'state:id,name', 'user:id,name'])->orderBy('assigned_to')->paginate(4)
         ]);
     }
 
@@ -45,7 +46,7 @@ class ProjectTaskController extends Controller
             {
                 return $query->forDevelopmentTeam();
             })->orderBy('id')->get(['id', 'name']),
-            'users' => $project->users()->with('role')->get(['id', 'name', 'role_id']),
+            'users' => $project->users()->with('role:id,name')->get(['id', 'name', 'role_id']),
             'project' => $project
         ]);
     }
@@ -88,7 +89,7 @@ class ProjectTaskController extends Controller
             {
                 return $query->forDevelopmentTeam();
             })->orderBy('id')->get(['id', 'name']),
-            'users' => User::notAdmin()->notMgr()->with('role')->orderBy('id')->get(['id', 'name', 'role_id']),
+            'users' => User::notAdmin()->notMgr()->with('role:id,name')->orderBy('id')->get(['id', 'name', 'role_id']),
             'project' => $project,
             'task' => $task
         ]);
