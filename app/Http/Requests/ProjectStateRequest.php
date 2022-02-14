@@ -29,7 +29,7 @@ class ProjectStateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:4', 'max:30', $unique], 
             'for' => ['required', 'string', 'min:4', 'max:9', 'in:developer,none'],
-            'description' => ['required', 'string', 'min:4']
+            'description' => ['required', 'string', 'min:4', 'max:510']
         ];
     }
 }

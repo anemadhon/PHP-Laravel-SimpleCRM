@@ -28,7 +28,7 @@ class RoleRequest extends FormRequest
 
         return [
             'name' => ['required', 'string', 'min:4', 'max:30', $unique], 
-            'description' => ['required', 'string', 'min:4']
+            'description' => ['required', 'string', 'min:4', 'max:510']
         ];
     }
 }

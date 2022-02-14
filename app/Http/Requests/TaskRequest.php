@@ -27,7 +27,7 @@ class TaskRequest extends FormRequest
         $unique = $this->isMethod('PUT') ? Rule::unique('tasks')->ignore($this->task) : '';
 
         return [
-            'name' => ['required', 'string', 'max:255', $unique], 
+            'name' => ['required', 'string', 'min:4', 'max:255', $unique], 
             'level_id' => ['required', 'exists:levels,id'],
             'state_id' => ['required', 'exists:project_states,id'],
             'project_id' => ['required', 'exists:projects,id'],

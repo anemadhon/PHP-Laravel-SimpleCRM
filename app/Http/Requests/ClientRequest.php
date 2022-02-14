@@ -27,7 +27,7 @@ class ClientRequest extends FormRequest
         $unique = $this->isMethod('PUT') ? Rule::unique('clients')->ignore($this->client) : '';
 
         return [
-            'name' => ['required', 'string', 'max:255', $unique],
+            'name' => ['required', 'string', 'min:4', 'max:255', $unique],
             'description' => ['required', 'string', 'max:510'],
             'type_id' => ['required', 'exists:client_types,id']
         ];

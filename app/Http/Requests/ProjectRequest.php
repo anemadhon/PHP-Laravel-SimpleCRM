@@ -28,8 +28,8 @@ class ProjectRequest extends FormRequest
         $unique = $this->isMethod('PUT') ? Rule::unique('projects')->ignore($this->project) : '';
 
         return [
-            'name' => ['required', 'string', 'max:255', $unique], 
-            'description' => ['required', 'string', 'max:510'], 
+            'name' => ['required', 'string', 'min:4', 'max:255', $unique], 
+            'description' => ['required', 'string', 'min:4', 'max:510'], 
             'started_at' => ['required'], 
             'ended_at' => ['required', 'date', "after:{$this->started_at}"],
             'state_id' => ['required', 'exists:project_states,id'], 
