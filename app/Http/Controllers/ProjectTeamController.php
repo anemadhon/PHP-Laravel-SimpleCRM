@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Project;
 use App\Http\Requests\TeamRequest;
-use App\Models\ProjectUser;
 use App\Services\ProjectService;
 use Illuminate\Support\Facades\Gate;
 

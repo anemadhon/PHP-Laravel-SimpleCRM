@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Level;
-use App\Models\Project;
 use App\Models\ProjectState;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Gate;
