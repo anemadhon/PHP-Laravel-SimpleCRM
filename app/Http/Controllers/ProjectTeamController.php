@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Project;
-use App\Http\Requests\TeamRequest;
+use App\Services\LogService;
 use App\Services\ProjectService;
+use App\Http\Requests\TeamRequest;
 use Illuminate\Support\Facades\Gate;
 
 class ProjectTeamController extends Controller
@@ -70,6 +71,19 @@ class ProjectTeamController extends Controller
         $pm = ['pm_id' => $request->safe()->only('pm')['pm']];
 
         $project->users()->syncWithPivotValues($teams, $pm);
+
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\ProjectTeamController@store',
+            'action' => 'Project - Team',
+            'detail' => 'User Add Project - Team Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->safe()->only(['pm', 'dev', 'qa']) + $pm),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('teams.index')->with('success', 'Data Saved');
     }

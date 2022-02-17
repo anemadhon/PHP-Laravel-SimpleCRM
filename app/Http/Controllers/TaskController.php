@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Level;
 use App\Models\Project;
 use App\Models\ProjectState;
+use App\Services\LogService;
 use App\Services\TaskService;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Gate;
@@ -65,6 +66,19 @@ class TaskController extends Controller
 
         Task::create($request->validated() + ['created_by' => auth()->id()]);
 
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\TaskController@store',
+            'action' => 'Task',
+            'detail' => 'User Add Task Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated() + ['created_by' => auth()->id()]),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
         return redirect()->route('tasks.index')->with('success', 'Data Saved');
     }
 
@@ -107,6 +121,19 @@ class TaskController extends Controller
         }
 
         $task->update($request->validated());
+
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\TaskController@update',
+            'action' => 'Task',
+            'detail' => 'User Update Task Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('tasks.index')->with('success', 'Data Updated');
     }

@@ -72,6 +72,19 @@ class UserTaskController extends Controller
         
         $task->update($request->validated());
 
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\UserTaskController@update',
+            'action' => 'User - Task',
+            'detail' => 'User Update User - Task Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
         return redirect()->route('tasks.index')->with('success', 'Data Updated');
     }
 }

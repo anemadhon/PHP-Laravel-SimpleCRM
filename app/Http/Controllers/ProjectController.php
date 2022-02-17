@@ -6,12 +6,13 @@ use App\Models\User;
 use App\Models\Level;
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\ProjectUser;
 use App\Models\ProjectState;
+use App\Services\LogService;
 use App\Services\ProjectService;
 use App\Models\ProjectAttachment;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProjectRequest;
-use App\Models\ProjectUser;
 
 class ProjectController extends Controller
 {
@@ -65,7 +66,22 @@ class ProjectController extends Controller
 
         if ($request->hasFile('attachment')) {
             (new ProjectService())->attachment($request->file('attachment'), $project);
+            
+            $attachments = (new ProjectService())->formatAttachmentsToLogs($request->file('attachment'), $project);
         }
+
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\ProjectController@store',
+            'action' => 'Project',
+            'detail' => 'User Add Project Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated() + $attachments),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('projects.index')->with('success', 'Data Saved');
     }
@@ -135,6 +151,8 @@ class ProjectController extends Controller
         
         if ($request->hasFile('attachment')) {
             (new ProjectService())->attachment($request->file('attachment'), $project, $request->flag);
+            
+            $attachments = (new ProjectService())->formatAttachmentsToLogs($request->file('attachment'), $project);
         }
 
         if ($request->validated()['state_id'] == ProjectState::CLOSE) {
@@ -143,6 +161,19 @@ class ProjectController extends Controller
                 $user->pivot->save();
             }
         }
+
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\ProjectController@update',
+            'action' => 'Project',
+            'detail' => 'User Update Project Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated() + $attachments),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('projects.index')->with('success', 'Data Updated');
     }

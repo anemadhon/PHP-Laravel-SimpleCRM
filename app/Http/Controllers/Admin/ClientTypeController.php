@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\ClientType;
+use App\Services\LogService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientTypeRequest;
-use App\Models\ClientType;
 
 class ClientTypeController extends Controller
 {
@@ -42,6 +43,19 @@ class ClientTypeController extends Controller
     {
         ClientType::create($request->validated());
 
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\Admin\ClientTypeController@store',
+            'action' => 'Client Type',
+            'detail' => 'Admin Add Client Type Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
         return redirect()->route('admin.types.index')->with('success', 'Data Saved');
     }
 
@@ -69,6 +83,19 @@ class ClientTypeController extends Controller
     public function update(ClientTypeRequest $request, ClientType $type)
     {
         $type->update($request->validated());
+
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\Admin\ClientTypeController@update',
+            'action' => 'Client Type',
+            'detail' => 'Admin Update Client Type Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('admin.types.index')->with('success', 'Data Updated');
     }

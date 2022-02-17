@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\ClientType;
+use App\Services\LogService;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Support\Facades\Gate;
 
@@ -56,6 +57,19 @@ class ClientController extends Controller
 
         Client::create($request->validated());
 
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\ClientController@store',
+            'action' => 'Client',
+            'detail' => 'User Add Client Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
         return redirect()->route('clients.index')->with('success', 'Data Saved');
     }
 
@@ -92,6 +106,19 @@ class ClientController extends Controller
         }
         
         $client->update($request->validated());
+
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\ClientController@update',
+            'action' => 'Client',
+            'detail' => 'User Update Client Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('clients.index')->with('success', 'Data Updated');
     }

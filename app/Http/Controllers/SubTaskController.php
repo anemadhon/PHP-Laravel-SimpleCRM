@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Level;
 use App\Models\SubTask;
 use App\Models\ProjectState;
+use App\Services\LogService;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\SubTaskRequest;
 
@@ -64,6 +65,19 @@ class SubTaskController extends Controller
 
         $task->subs()->create($request->validated());
 
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\SubTaskController@store',
+            'action' => 'Sub Task',
+            'detail' => 'User Add Sub Task Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
         return redirect()->route('tasks.subs.index', ['task' => $task])->with('success', 'Data Saved');
     }
 
@@ -107,6 +121,19 @@ class SubTaskController extends Controller
         }
 
         $sub->update($request->validated());
+
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\SubTaskController@update',
+            'action' => 'Sub Task',
+            'detail' => 'User Update Sub Task Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('tasks.subs.index', ['task' => $task])->with('success', 'Data Updated');
     }

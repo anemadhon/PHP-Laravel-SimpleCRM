@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\LevelRequest;
 use App\Models\Level;
+use App\Services\LogService;
+use App\Http\Requests\LevelRequest;
+use App\Http\Controllers\Controller;
 
 class LevelController extends Controller
 {
@@ -42,6 +43,19 @@ class LevelController extends Controller
     {
         Level::create($request->validated());
 
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\Admin\LevelController@store',
+            'action' => 'Level',
+            'detail' => 'Admin Add Level Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
         return redirect()->route('admin.levels.index')->with('success', 'Data Saved');
     }
 
@@ -69,6 +83,19 @@ class LevelController extends Controller
     public function update(LevelRequest $request, Level $level)
     {
         $level->update($request->validated());
+
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\Admin\LevelController@update',
+            'action' => 'Level',
+            'detail' => 'Admin Update Level Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('admin.levels.index')->with('success', 'Data Updated');
     }

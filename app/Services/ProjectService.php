@@ -111,4 +111,18 @@ class ProjectService
 
         return $errors;
     }
+
+    public function formatAttachmentsToLogs(array $files, Project $project, string $flag = '')
+    {
+        $attachments = [];
+
+        foreach ($files as $file) {
+            $attachments['attachments'][] = [
+                'path' => $file->storeAs('project', "attachments/{$project->slug}/{$file->getClientOriginalName()}", 'public'),
+                'filename' => $file->getClientOriginalName()
+            ];
+        }
+
+        return $attachments;
+    }
 }

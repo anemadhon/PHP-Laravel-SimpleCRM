@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Level;
 use App\Models\Project;
 use App\Models\ProjectState;
+use App\Services\LogService;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Gate;
 
@@ -66,6 +67,19 @@ class ProjectTaskController extends Controller
 
         $project->tasks()->create($request->validated() + ['created_by' => auth()->id()]);
 
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\ProjectTaskController@store',
+            'action' => 'Project - Task',
+            'detail' => 'User Add Project - Task Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated() + ['created_by' => auth()->id()]),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
         return redirect()->route('projects.index')->with('success', 'Data Saved');
     }
 
@@ -110,6 +124,19 @@ class ProjectTaskController extends Controller
         }
 
         $task->update($request->validated());
+
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\ProjectTaskController@update',
+            'action' => 'Project - Task',
+            'detail' => 'User Update Project - Task Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('projects.index')->with('success', 'Data Updated');
     }

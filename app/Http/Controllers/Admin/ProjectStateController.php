@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\ProjectState;
+use App\Services\LogService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectStateRequest;
-use App\Models\ProjectState;
 
 class ProjectStateController extends Controller
 {
@@ -42,6 +43,19 @@ class ProjectStateController extends Controller
     {
         ProjectState::create($request->validated());
 
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\Admin\ProjectStateController@store',
+            'action' => 'Project State',
+            'detail' => 'Admin Add Project State Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
         return redirect()->route('admin.states.index')->with('success', 'Data Saved');
     }
 
@@ -69,6 +83,19 @@ class ProjectStateController extends Controller
     public function update(ProjectStateRequest $request, ProjectState $state)
     {
         $state->update($request->validated());
+
+        (new LogService())->store([
+            'method' => 'App\Http\Controllers\Admin\ProjectStateController@update',
+            'action' => 'Project State',
+            'detail' => 'Admin Update Project State Data',
+            'status' => 'success@200',
+            'data' => json_encode($request->validated()),
+            'session_id' => $request->session()->getId(),
+            'from_ip' => $request->ip(),
+            'user_id' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('admin.states.index')->with('success', 'Data Updated');
     }
