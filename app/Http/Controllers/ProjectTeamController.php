@@ -33,6 +33,18 @@ class ProjectTeamController extends Controller
     public function create(Project $project)
     {
         if (!Gate::allows('create-project-teams', $project->loadCount('users'))) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\ProjectTeamController@create',
+                'action' => 'Project - Team',
+                'detail' => auth()->user()->name.' Tries to access Project - Team Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -56,6 +68,18 @@ class ProjectTeamController extends Controller
     public function store(TeamRequest $request, Project $project)
     {
         if (!Gate::allows('create-project-teams', $project->loadCount('users'))) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\ProjectTeamController@store',
+                'action' => 'Project - Team',
+                'detail' => auth()->user()->name.' Tries to access Project - Team Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -72,18 +96,25 @@ class ProjectTeamController extends Controller
 
         $project->users()->syncWithPivotValues($teams, $pm);
 
-        (new LogService())->store([
+        $log = [
             'method' => 'App\Http\Controllers\ProjectTeamController@store',
             'action' => 'Project - Team',
             'detail' => 'User Add Project - Team Data',
             'status' => 'success@200',
-            'data' => json_encode($request->safe()->only(['pm', 'dev', 'qa']) + $pm),
             'session_id' => $request->session()->getId(),
             'from_ip' => $request->ip(),
             'user_id' => auth()->id(),
             'created_at' => now(),
             'updated_at' => now()
-        ]);
+        ];
+
+        (new LogService())->store(($log + [
+            'data' => json_encode($request->safe()->only(['pm', 'dev', 'qa']) + $pm)
+        ]));
+        
+        (new LogService())->file('activity', ($log + [
+            'data' => ($request->safe()->only(['pm', 'dev', 'qa']) + $pm)
+        ]));
 
         return redirect()->route('teams.index')->with('success', 'Data Saved');
     }

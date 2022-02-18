@@ -34,21 +34,31 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        (new LogService())->store([
+        $log = [
             'method' => 'App\Http\Controllers\Auth\AuthenticatedSessionController@store',
             'action' => 'Login',
             'detail' => 'User Login into System',
             'status' => 'success@200',
-            'data' => json_encode([
-                'userlogin' => $request->userlogin,
-                'password' => Hash::make($request->password)
-            ]),
             'session_id' => $request->session()->getId(),
             'from_ip' => $request->ip(),
             'user_id' => auth()->id(),
             'created_at' => now(),
             'updated_at' => now()
-        ]);
+        ];
+
+        (new LogService())->store(($log + [
+            'data' => json_encode([
+                'userlogin' => $request->userlogin,
+                'password' => Hash::make($request->password)
+            ])
+        ]));
+        
+        (new LogService())->file('activity', ($log + [
+            'data' => [
+                'userlogin' => $request->userlogin,
+                'password' => Hash::make($request->password)
+            ]
+        ]));
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -70,23 +80,35 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        (new LogService())->store([
+        $log = [
             'method' => 'App\Http\Controllers\Auth\AuthenticatedSessionController@destroy',
             'action' => 'Logout',
             'detail' => 'User Logout from System',
             'status' => 'success@200',
+            'session_id' => $sessionId,
+            'from_ip' => $request->ip(),
+            'user_id' => $user->id,
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
+
+        (new LogService())->store(($log + [
             'data' => json_encode([
                 'id' => $user->id,
                 'username' => $user->username,
                 'name' => $user->name,
                 'role' => $user->role->name
             ]),
-            'session_id' => $sessionId,
-            'from_ip' => $request->ip(),
-            'user_id' => $user->id,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        ]));
+
+        (new LogService())->file('activity', ($log + [
+            'data' => [
+                'id' => $user->id,
+                'username' => $user->username,
+                'name' => $user->name,
+                'role' => $user->role->name
+            ],
+        ]));
 
         return redirect('/');
     }

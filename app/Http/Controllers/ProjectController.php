@@ -38,6 +38,18 @@ class ProjectController extends Controller
     public function create()
     {
         if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\ProjectController@create',
+                'action' => 'Project',
+                'detail' => auth()->user()->name.' Tries to access Project Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -59,6 +71,18 @@ class ProjectController extends Controller
     public function store(ProjectRequest $request)
     {
         if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\ProjectController@store',
+                'action' => 'Project',
+                'detail' => auth()->user()->name.' Tries to access Project Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -70,18 +94,25 @@ class ProjectController extends Controller
             $attachments = (new ProjectService())->formatAttachmentsToLogs($request->file('attachment'), $project);
         }
 
-        (new LogService())->store([
+        $log = [
             'method' => 'App\Http\Controllers\ProjectController@store',
             'action' => 'Project',
             'detail' => 'User Add Project Data',
             'status' => 'success@200',
-            'data' => json_encode($request->validated() + $attachments),
             'session_id' => $request->session()->getId(),
             'from_ip' => $request->ip(),
             'user_id' => auth()->id(),
             'created_at' => now(),
             'updated_at' => now()
-        ]);
+        ];
+
+        (new LogService())->store(($log + [
+            'data' => json_encode($request->validated() + $attachments)
+        ]));
+        
+        (new LogService())->file('activity', ($log + [
+            'data' => ($request->validated() + $attachments)
+        ]));
 
         return redirect()->route('projects.index')->with('success', 'Data Saved');
     }
@@ -121,6 +152,18 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         if (!Gate::allows('edit-projects', $project->load('users'))) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\ProjectController@edit',
+                'action' => 'Project',
+                'detail' => auth()->user()->name.' Tries to access Project Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -144,6 +187,18 @@ class ProjectController extends Controller
     public function update(ProjectRequest $request, Project $project)
     {
         if (!Gate::allows('edit-projects', $project->load('users'))) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\ProjectController@update',
+                'action' => 'Project',
+                'detail' => auth()->user()->name.' Tries to access Project Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         
@@ -162,18 +217,25 @@ class ProjectController extends Controller
             }
         }
 
-        (new LogService())->store([
+        $log = [
             'method' => 'App\Http\Controllers\ProjectController@update',
             'action' => 'Project',
             'detail' => 'User Update Project Data',
             'status' => 'success@200',
-            'data' => json_encode($request->validated() + $attachments),
             'session_id' => $request->session()->getId(),
             'from_ip' => $request->ip(),
             'user_id' => auth()->id(),
             'created_at' => now(),
             'updated_at' => now()
-        ]);
+        ];
+
+        (new LogService())->store(($log + [
+            'data' => json_encode($request->validated() + $attachments)
+        ]));
+        
+        (new LogService())->file('activity', ($log + [
+            'data' => ($request->validated() + $attachments)
+        ]));
 
         return redirect()->route('projects.index')->with('success', 'Data Updated');
     }

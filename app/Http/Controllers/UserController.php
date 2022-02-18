@@ -10,6 +10,18 @@ class UserController extends Controller
     public function index()
     {
         if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\UserController@index',
+                'action' => 'User',
+                'detail' => auth()->user()->name.' Tries to access User Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         
@@ -24,6 +36,18 @@ class UserController extends Controller
     public function projects(User $user)
     {
         if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\UserController@projects',
+                'action' => 'User - Projects',
+                'detail' => auth()->user()->name.' Tries to access User - Projects Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         

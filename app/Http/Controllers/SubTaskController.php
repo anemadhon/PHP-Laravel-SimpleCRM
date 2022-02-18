@@ -36,6 +36,18 @@ class SubTaskController extends Controller
     public function create(Task $task)
     {
         if (!Gate::allows('manage-sub-tasks', $task)) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\SubTaskController@create',
+                'action' => 'Sub Task',
+                'detail' => auth()->user()->name.' Tries to access Sub Task Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -60,23 +72,42 @@ class SubTaskController extends Controller
     public function store(SubTaskRequest $request, Task $task)
     {
         if (!Gate::allows('manage-sub-tasks', $task)) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\SubTaskController@store',
+                'action' => 'Sub Task',
+                'detail' => auth()->user()->name.' Tries to access Sub Task Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
         $task->subs()->create($request->validated());
 
-        (new LogService())->store([
+        $log = [
             'method' => 'App\Http\Controllers\SubTaskController@store',
             'action' => 'Sub Task',
             'detail' => 'User Add Sub Task Data',
             'status' => 'success@200',
-            'data' => json_encode($request->validated()),
             'session_id' => $request->session()->getId(),
             'from_ip' => $request->ip(),
             'user_id' => auth()->id(),
             'created_at' => now(),
             'updated_at' => now()
-        ]);
+        ];
+
+        (new LogService())->store(($log + [
+            'data' => json_encode($request->validated())
+        ]));
+        
+        (new LogService())->file('activity', ($log + [
+            'data' => $request->validated()
+        ]));
 
         return redirect()->route('tasks.subs.index', ['task' => $task])->with('success', 'Data Saved');
     }
@@ -91,6 +122,18 @@ class SubTaskController extends Controller
     public function edit(Task $task, SubTask $sub)
     {
         if (!Gate::allows('manage-sub-tasks', $task)) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\SubTaskController@edit',
+                'action' => 'Sub Task',
+                'detail' => auth()->user()->name.' Tries to access Sub Task Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -117,23 +160,42 @@ class SubTaskController extends Controller
     public function update(SubTaskRequest $request, Task $task, SubTask $sub)
     {
         if (!Gate::allows('manage-sub-tasks', $task)) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\SubTaskController@update',
+                'action' => 'Sub Task',
+                'detail' => auth()->user()->name.' Tries to access Sub Task Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
         $sub->update($request->validated());
 
-        (new LogService())->store([
+        $log = [
             'method' => 'App\Http\Controllers\SubTaskController@update',
             'action' => 'Sub Task',
             'detail' => 'User Update Sub Task Data',
             'status' => 'success@200',
-            'data' => json_encode($request->validated()),
             'session_id' => $request->session()->getId(),
             'from_ip' => $request->ip(),
             'user_id' => auth()->id(),
             'created_at' => now(),
             'updated_at' => now()
-        ]);
+        ];
+
+        (new LogService())->store(($log + [
+            'data' => json_encode($request->validated())
+        ]));
+        
+        (new LogService())->file('activity', ($log + [
+            'data' => $request->validated()
+        ]));
 
         return redirect()->route('tasks.subs.index', ['task' => $task])->with('success', 'Data Updated');
     }

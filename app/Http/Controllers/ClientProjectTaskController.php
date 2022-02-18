@@ -23,6 +23,18 @@ class ClientProjectTaskController extends Controller
     public function index(Client $client, Project $project)
     {
         if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\ClientProjectTaskController@index',
+                'action' => 'Client - Project - Task',
+                'detail' => auth()->user()->name.' Tries to access Client - Project - Task Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -44,6 +56,18 @@ class ClientProjectTaskController extends Controller
     public function edit(Client $client, Project $project, Task $task)
     {
         if (!Gate::allows('edit-user-tasks', $task)) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\ClientProjectTaskController@edit',
+                'action' => 'Client - Project - Task',
+                'detail' => auth()->user()->name.' Tries to access Client - Project - Task Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -72,23 +96,42 @@ class ClientProjectTaskController extends Controller
     public function update(TaskRequest $request, Client $client, Project $project, Task $task)
     {
         if (!Gate::allows('edit-user-tasks', $task)) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\ClientProjectTaskController@update',
+                'action' => 'Client - Project - Task',
+                'detail' => auth()->user()->name.' Tries to access Client - Project - Task Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         
         $task->update($request->validated());
 
-        (new LogService())->store([
+        $log = [
             'method' => 'App\Http\Controllers\ClientProjectTaskController@update',
             'action' => 'Client - Project - Task',
             'detail' => 'User Add Client - Project - Task Data',
             'status' => 'success@200',
-            'data' => json_encode($request->validated()),
             'session_id' => $request->session()->getId(),
             'from_ip' => $request->ip(),
             'user_id' => auth()->id(),
             'created_at' => now(),
             'updated_at' => now()
-        ]);
+        ];
+
+        (new LogService())->store(($log + [
+            'data' => json_encode($request->validated())
+        ]));
+        
+        (new LogService())->file('activity', ($log + [
+            'data' => $request->validated()
+        ]));
 
         return redirect()->route('tasks.index')->with('success', 'Data Updated');
     }

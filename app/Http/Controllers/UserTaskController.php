@@ -20,6 +20,18 @@ class UserTaskController extends Controller
     public function index(User $user)
     {
         if (!Gate::any(['manage-apps', 'manage-department', 'sale-products'])) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\UserTaskController@index',
+                'action' => 'User - Task',
+                'detail' => auth()->user()->name.' Tries to access User - Task Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -41,6 +53,18 @@ class UserTaskController extends Controller
     public function edit(User $user, Task $task)
     {
         if (!Gate::allows('edit-user-tasks', $task)) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\UserTaskController@edit',
+                'action' => 'User - Task',
+                'detail' => auth()->user()->name.' Tries to access User - Task Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
@@ -67,23 +91,42 @@ class UserTaskController extends Controller
     public function update(TaskRequest $request, User $user, Task $task)
     {
         if (!Gate::allows('edit-user-tasks', $task)) {
+            (new LogService())->file('gate', [
+                'method' => 'App\Http\Controllers\UserTaskController@update',
+                'action' => 'User - Task',
+                'detail' => auth()->user()->name.' Tries to access User - Task Module',
+                'status' => '403',
+                'session_id' => $request->session()->getId(),
+                'from_ip' => $request->ip(),
+                'user_id' => auth()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
         
         $task->update($request->validated());
 
-        (new LogService())->store([
+        $log = [
             'method' => 'App\Http\Controllers\UserTaskController@update',
             'action' => 'User - Task',
             'detail' => 'User Update User - Task Data',
             'status' => 'success@200',
-            'data' => json_encode($request->validated()),
             'session_id' => $request->session()->getId(),
             'from_ip' => $request->ip(),
             'user_id' => auth()->id(),
             'created_at' => now(),
             'updated_at' => now()
-        ]);
+        ];
+
+        (new LogService())->store(($log + [
+            'data' => json_encode($request->validated())
+        ]));
+        
+        (new LogService())->file('activity', ($log + [
+            'data' => $request->validated()
+        ]));
 
         return redirect()->route('tasks.index')->with('success', 'Data Updated');
     }
