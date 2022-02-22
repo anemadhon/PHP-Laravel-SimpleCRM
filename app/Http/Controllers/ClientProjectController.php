@@ -108,7 +108,7 @@ class ClientProjectController extends Controller
         if ($request->hasFile('attachment')) {
             (new ProjectService())->attachment($request->file('attachment'), $project);
 
-            $attachments = (new ProjectService())->formatAttachmentsToLogs($request->file('attachment'), $project);
+            $attachments = (new ProjectService())->formatAttachmentsToLogs($request->file('attachment'), $project->slug);
         }
 
         $log = [
@@ -200,7 +200,7 @@ class ClientProjectController extends Controller
         if ($request->hasFile('attachment')) {
             (new ProjectService())->attachment($request->file('attachment'), $project, $request->flag);
             
-            $attachments = (new ProjectService())->formatAttachmentsToLogs($request->file('attachment'), $project);
+            $attachments = (new ProjectService())->formatAttachmentsToLogs($request->file('attachment'), $project->slug);
         }
         
         if ($request->validated()['state_id'] == ProjectState::CLOSE) {

@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Level;
 use App\Models\Skill;
 use App\Models\ClientType;
-use App\Models\Project;
 use App\Models\ProjectState;
 
 class DashboardService

@@ -7,17 +7,18 @@ use App\Models\Project;
 use App\Models\ProjectState;
 use App\Models\ProjectUser;
 use Illuminate\Support\Facades\File;
-use Illuminate\Contracts\Auth\Authenticatable;
 
 class ProjectService
 {
-    public function lists(Authenticatable $user)
+    public function lists(User $user)
     {
         if ($user->can('manage-products') || $user->can('develop-products')) {
-            return $user->projects()->with(['state:id,name', 'level:id,name', 'client:id,name', 'users'])->withCount(['tasks', 'users'])->paginate(4);
+            return $user->projects()->with(['state:id,name', 'level:id,name', 'client:id,name', 'users'])
+                        ->withCount(['tasks', 'users'])->paginate(4);
         }
         
-        return Project::with(['state:id,name', 'level:id,name', 'client:id,name', 'users'])->withCount(['tasks', 'users'])->paginate(4);
+        return Project::with(['state:id,name', 'level:id,name', 'client:id,name', 'users'])
+                        ->withCount(['tasks', 'users'])->paginate(4);
     }
 
     public function attachment(array $files, Project $project, string $flag = '')
@@ -74,15 +75,12 @@ class ProjectService
 
             if ($onTeams === null) {
                 $idle[] = 'idle';
-            }
-            
-            if ($onTeams) {
+            } else {
                 $projects = Project::find($onTeams->project_id);
-
+    
                 if ($projects->state_id !== ProjectState::LIVE) {
                     $arrayID[] = $id;
                 }
-                
             }
         }
 
@@ -112,13 +110,13 @@ class ProjectService
         return $errors;
     }
 
-    public function formatAttachmentsToLogs(array $files, Project $project, string $flag = '')
+    public function formatAttachmentsToLogs(array $files, string $slug)
     {
         $attachments = [];
 
         foreach ($files as $file) {
             $attachments['attachments'][] = [
-                'path' => $file->storeAs('project', "attachments/{$project->slug}/{$file->getClientOriginalName()}", 'public'),
+                'path' => $file->storeAs('project', "attachments/{$slug}/{$file->getClientOriginalName()}", 'public'),
                 'filename' => $file->getClientOriginalName()
             ];
         }
