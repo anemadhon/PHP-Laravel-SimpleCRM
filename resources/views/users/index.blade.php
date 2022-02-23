@@ -55,8 +55,11 @@
                                     @if ($user->role_id === $is_mgr)
                                         {{ $user->role->name }}
                                     @endif
-                                    @if ($user->role_id === $is_sales)
-                                        <a href="{{ route('users.tasks.index', ['user' => $user]) }}" class="hover:underline">In Projects</a>
+                                    @if ($user->role_id === $is_sales && $user->tasks_count === 0)
+                                        Idle
+                                    @endif
+                                    @if ($user->role_id === $is_sales && $user->tasks_count > 0)
+                                        <a href="{{ route('users.tasks.index', ['user' => $user]) }}" class="hover:underline">View Tasks</a>
                                     @endif
                                     @if (!in_array($user->role_id, [$is_mgr, $is_sales]))
                                         @if ($user->projects_count === 0)

@@ -27,7 +27,7 @@ class UserController extends Controller
         
         return view('users.index', [
             'users' => User::select(['id', 'name', 'username', 'email', 'role_id'])->notAdmin()
-                        ->with(['role:id,name', 'skills:id,name'])->withCount('projects')->paginate(4),
+                        ->with(['role:id,name', 'skills:id,name'])->withCount(['projects', 'tasks'])->paginate(4),
             'is_mgr' => User::IS_MGR,
             'is_sales' => User::IS_SALES
         ]);
