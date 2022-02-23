@@ -23,13 +23,9 @@ class TaskTest extends TestCase
     {
         $role = Role::factory(6)->create();
 
-        $pm = User::factory()->create([
-            'role_id' => 3
-        ]);
+        $pm = User::factory()->pm()->create();
 
-        $qa = User::factory()->create([
-            'role_id' => $role->last()->id
-        ]);
+        $qa = User::factory()->sales()->create();
 
         $state = ProjectState::create([
             'name' => 'Development',

@@ -22,9 +22,7 @@ class ProjectTest extends TestCase
     {
         Role::factory(6)->create();
 
-        $pm = User::factory()->create([
-            'role_id' => 3
-        ]);
+        $pm = User::factory()->pm()->create();
 
         $state = ProjectState::create([
             'name' => 'Development',
@@ -110,9 +108,7 @@ class ProjectTest extends TestCase
             'role_id' => $role->skip(2)->first()->id
         ]);
 
-        $pm = User::factory()->create([
-            'role_id' => 3
-        ]);
+        $pm = User::factory()->pm()->create();
 
         $state = ProjectState::create([
             'name' => 'Development',
@@ -173,15 +169,11 @@ class ProjectTest extends TestCase
 
     public function test_cannot_add_user_on_project_to_team()
     {
-        $role = Role::factory(6)->create();
+        Role::factory(6)->create();
 
-        $user = User::factory()->create([
-            'role_id' => $role->skip(2)->first()->id
-        ]);
+        $user = User::factory()->pm()->create();
 
-        $pm = User::factory()->create([
-            'role_id' => 3
-        ]);
+        $pm = User::factory()->pm()->create();
 
         $state = ProjectState::create([
             'name' => 'Development',
