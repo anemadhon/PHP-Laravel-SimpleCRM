@@ -21,7 +21,7 @@ class TaskTest extends TestCase
     
     public function test_get_task_lists_for_pm()
     {
-        $role = Role::factory(6)->create();
+        Role::factory(6)->create();
 
         $pm = User::factory()->pm()->create();
 

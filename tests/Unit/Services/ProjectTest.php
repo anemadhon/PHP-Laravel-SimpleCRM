@@ -83,32 +83,36 @@ class ProjectTest extends TestCase
 
     public function test_get_team()
     {
+        Role::factory(6)->create();
+
+        $pm = User::factory()->pm()->create();
+        $dev = User::factory(6)->developer()->create();
+        $qa = User::factory(2)->qa()->create();
+
         $pm = [
-            'pm' => 1,
+            'pm' => $pm->id,
         ];
 
         $devTeam = [
-            'dev' => [2,3,4]
+            'dev' => $dev->pluck('id')
         ];
 
         $qa = [
-            'qa' => 5
+            'qa' => $qa->first()->id
         ];
 
         $team = (new ProjectService())->team(($pm + $devTeam + $qa));
 
-        $this->assertEquals([1,2,3,4,5], $team);
+        $this->assertEquals([1,2,3,4,5,6,7,8], $team);
     }
 
     public function test_can_add_idle_user_to_team()
     {
-        $role = Role::factory(6)->create();
-
-        $user = User::factory()->create([
-            'role_id' => $role->skip(2)->first()->id
-        ]);
+        Role::factory(6)->create();
 
         $pm = User::factory()->pm()->create();
+        $dev = User::factory(6)->developer()->create();
+        $qa = User::factory(2)->qa()->create();
 
         $state = ProjectState::create([
             'name' => 'Development',
@@ -149,17 +153,17 @@ class ProjectTest extends TestCase
 
         DB::table('project_user')->insert([
             'project_id' => $project->id,
-            'user_id' => $user->id,
+            'user_id' => $pm->id,
             'pm_id' => $pm->id,
             'status' => 1 
         ]);
 
         $devTeam = [
-            'dev' => [2,4,5]
+            'dev' => $dev->pluck('id')
         ];
 
         $qa = [
-            'qa' => 6
+            'qa' => $qa->first()->id
         ];
 
         $availability = (new ProjectService())->availabilityStatusCheck(($devTeam + $qa));;
@@ -171,9 +175,9 @@ class ProjectTest extends TestCase
     {
         Role::factory(6)->create();
 
-        $user = User::factory()->pm()->create();
-
         $pm = User::factory()->pm()->create();
+        $dev = User::factory(6)->developer()->create();
+        $qa = User::factory(2)->qa()->create();
 
         $state = ProjectState::create([
             'name' => 'Development',
@@ -214,17 +218,17 @@ class ProjectTest extends TestCase
 
         DB::table('project_user')->insert([
             'project_id' => $project->id,
-            'user_id' => $user->id,
+            'user_id' => $pm->id,
             'pm_id' => $pm->id,
             'status' => 1 
         ]);
 
         $devTeam = [
-            'dev' => [1,2,4]
+            'dev' => [$pm->id] + $dev->pluck('id')->toArray()
         ];
 
         $qa = [
-            'qa' => 5
+            'qa' => $qa->last()->id
         ];
 
         $availability = (new ProjectService())->availabilityStatusCheck(($devTeam + $qa));;
