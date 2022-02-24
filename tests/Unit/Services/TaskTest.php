@@ -25,7 +25,7 @@ class TaskTest extends TestCase
 
         $pm = User::factory()->pm()->create();
 
-        $qa = User::factory()->sales()->create();
+        $qa = User::factory()->qa()->create();
 
         $state = ProjectState::create([
             'name' => 'Development',
