@@ -43,8 +43,8 @@ class ProjectController extends Controller
                 'action' => 'Project',
                 'detail' => auth()->user()->name.' Tries to access Project Module',
                 'status' => '403',
-                'session_id' => $request->session()->getId(),
-                'from_ip' => $request->ip(),
+                'session_id' => request()->session()->getId(),
+                'from_ip' => request()->ip(),
                 'user_id' => auth()->id(),
                 'created_at' => now(),
                 'updated_at' => now()
@@ -87,6 +87,8 @@ class ProjectController extends Controller
         }
 
         $project = Project::create($request->validated());
+
+        $attachments = [];
 
         if ($request->hasFile('attachment')) {
             (new ProjectService())->attachment($request->file('attachment'), $project);
@@ -157,8 +159,8 @@ class ProjectController extends Controller
                 'action' => 'Project',
                 'detail' => auth()->user()->name.' Tries to access Project Module',
                 'status' => '403',
-                'session_id' => $request->session()->getId(),
-                'from_ip' => $request->ip(),
+                'session_id' => request()->session()->getId(),
+                'from_ip' => request()->ip(),
                 'user_id' => auth()->id(),
                 'created_at' => now(),
                 'updated_at' => now()
@@ -203,6 +205,8 @@ class ProjectController extends Controller
         }
         
         $project->update($request->validated());
+
+        $attachments = [];
         
         if ($request->hasFile('attachment')) {
             (new ProjectService())->attachment($request->file('attachment'), $project, $request->flag);

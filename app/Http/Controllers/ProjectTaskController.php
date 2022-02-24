@@ -42,8 +42,8 @@ class ProjectTaskController extends Controller
                 'action' => 'Project - Task',
                 'detail' => auth()->user()->name.' Tries to access Project - Task Module',
                 'status' => '403',
-                'session_id' => $request->session()->getId(),
-                'from_ip' => $request->ip(),
+                'session_id' => request()->session()->getId(),
+                'from_ip' => request()->ip(),
                 'user_id' => auth()->id(),
                 'created_at' => now(),
                 'updated_at' => now()
@@ -129,8 +129,8 @@ class ProjectTaskController extends Controller
                 'action' => 'Project - Task',
                 'detail' => auth()->user()->name.' Tries to access Project - Task Module',
                 'status' => '403',
-                'session_id' => $request->session()->getId(),
-                'from_ip' => $request->ip(),
+                'session_id' => request()->session()->getId(),
+                'from_ip' => request()->ip(),
                 'user_id' => auth()->id(),
                 'created_at' => now(),
                 'updated_at' => now()

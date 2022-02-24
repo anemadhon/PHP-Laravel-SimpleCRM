@@ -8,6 +8,7 @@ use App\Models\Level;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\ProjectState;
+use App\Services\LogService;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Gate;
 
@@ -28,8 +29,8 @@ class ClientProjectTaskController extends Controller
                 'action' => 'Client - Project - Task',
                 'detail' => auth()->user()->name.' Tries to access Client - Project - Task Module',
                 'status' => '403',
-                'session_id' => $request->session()->getId(),
-                'from_ip' => $request->ip(),
+                'session_id' => request()->session()->getId(),
+                'from_ip' => request()->ip(),
                 'user_id' => auth()->id(),
                 'created_at' => now(),
                 'updated_at' => now()
@@ -61,8 +62,8 @@ class ClientProjectTaskController extends Controller
                 'action' => 'Client - Project - Task',
                 'detail' => auth()->user()->name.' Tries to access Client - Project - Task Module',
                 'status' => '403',
-                'session_id' => $request->session()->getId(),
-                'from_ip' => $request->ip(),
+                'session_id' => request()->session()->getId(),
+                'from_ip' => request()->ip(),
                 'user_id' => auth()->id(),
                 'created_at' => now(),
                 'updated_at' => now()

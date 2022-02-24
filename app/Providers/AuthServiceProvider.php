@@ -58,7 +58,7 @@ class AuthServiceProvider extends ServiceProvider
             $isAdmin = $user->role_id === User::IS_ADMIN;
             $isManager = $user->role_id === User::IS_MGR;
             $isSales = $user->role_id === User::IS_SALES;
-            $pmProject = $user->id === $project->users->first()?->pivot->pm_id;
+            $pmProject = $user->id === (int)$project->users->first()?->pivot->pm_id;
 
             return ($isAdmin || $isManager || $isSales || $pmProject);
         });
@@ -67,12 +67,12 @@ class AuthServiceProvider extends ServiceProvider
         {
             $isAdmin = $user->role_id === User::IS_ADMIN;
             $isManager = $user->role_id === User::IS_MGR;
-            $pmProject = $user->id === $task->project->users->first()->pivot->pm_id;
-            $ownerTask = $user->id === $task->created_by;
-            $picTask = $user->id === $task->assigned_to;
+            $pmProject = $user->id === (int)$task->project->users->first()?->pivot->pm_id;
+            $ownerTask = $user->id === (int)$task->created_by;
+            $picTask = $user->id === (int)$task->assigned_to;
             $hasTeam = $task->project->users->count() > 0;
 
-            return ($hasTeam && ($isAdmin || $isManager || $pmProject || $ownerTask || $picTask));
+            return ($isAdmin || $isManager || $ownerTask || $picTask || ($hasTeam && $pmProject));
         });
         
         Gate::define('edit-user-tasks', function(User $user, Task $task)
@@ -80,8 +80,8 @@ class AuthServiceProvider extends ServiceProvider
             $isAdmin = $user->role_id === User::IS_ADMIN;
             $isManager = $user->role_id === User::IS_MGR;
             $isSales = $user->role_id === User::IS_SALES;
-            $ownerTask = $user->id === $task->created_by;
-            $picTask = $user->id === $task->assigned_to;
+            $ownerTask = $user->id === (int)$task->created_by;
+            $picTask = $user->id === (int)$task->assigned_to;
 
             return ($isAdmin || $isManager || $ownerTask || ($isSales && $picTask));
         });
@@ -99,7 +99,7 @@ class AuthServiceProvider extends ServiceProvider
         {
             $isAdmin = $user->role_id === User::IS_ADMIN;
             $isManager = $user->role_id === User::IS_MGR;
-            $pmProject = $user->id === $project->users->first()?->pivot->pm_id;
+            $pmProject = $user->id === (int)$project->users->first()?->pivot->pm_id;
             $hasTeam = $project->users_count > 0;
 
             return ($isAdmin || $isManager || ($hasTeam && $pmProject));
@@ -109,7 +109,7 @@ class AuthServiceProvider extends ServiceProvider
         {
             $isAdmin = $user->role_id === User::IS_ADMIN;
             $isManager = $user->role_id === User::IS_MGR;
-            $picTask = $user->id === $task->assigned_to;
+            $picTask = $user->id === (int)$task->assigned_to;
 
             return $isAdmin || $isManager || $picTask;
         });

@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Level;
 use App\Models\ProjectState;
+use App\Services\LogService;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,8 +26,8 @@ class UserTaskController extends Controller
                 'action' => 'User - Task',
                 'detail' => auth()->user()->name.' Tries to access User - Task Module',
                 'status' => '403',
-                'session_id' => $request->session()->getId(),
-                'from_ip' => $request->ip(),
+                'session_id' => request()->session()->getId(),
+                'from_ip' => request()->ip(),
                 'user_id' => auth()->id(),
                 'created_at' => now(),
                 'updated_at' => now()
@@ -58,8 +59,8 @@ class UserTaskController extends Controller
                 'action' => 'User - Task',
                 'detail' => auth()->user()->name.' Tries to access User - Task Module',
                 'status' => '403',
-                'session_id' => $request->session()->getId(),
-                'from_ip' => $request->ip(),
+                'session_id' => request()->session()->getId(),
+                'from_ip' => request()->ip(),
                 'user_id' => auth()->id(),
                 'created_at' => now(),
                 'updated_at' => now()
