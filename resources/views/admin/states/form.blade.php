@@ -44,8 +44,9 @@
                             <div class="relative w-full mb-3">
                                 <x-label for="for" :value="__('For')"/>
                                 <select name="for" id="for" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                    <option value="dev" {{ $state === 'Update' && $project_state->for === 'dev' ? 'selected' : '' }}>Developer</option>
-                                    <option value="non" {{ $state === 'Update' && $project_state->for === 'non' ? 'selected' : '' }}>Non Developer</option>
+                                    <option value="">Select Group</option>
+                                    <option value="dev" {{ ($state === 'Update' && $project_state->for === 'dev') || old('for') === 'dev' ? 'selected' : '' }}>Developer</option>
+                                    <option value="non" {{ ($state === 'Update' && $project_state->for === 'non') || old('for') === 'non' ? 'selected' : '' }}>Non Developer</option>
                                 </select>
                             </div>
                         </div>
