@@ -14,6 +14,82 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+    <!-- Custom Select2 Styles -->
+    <style>
+        .select2.select2-container {
+            width: 100% !important;
+        }
+
+        .select2.select2-container .select2-selection {
+            height: 43px;
+            border-radius: 0.375rem;
+            border-color: rgb(209 213 219);
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        }
+
+        .select2.select2-container .select2-selection--single .select2-selection__rendered {
+            padding-top: 0.3rem;
+            margin-left: 0.4rem;
+        }
+
+        .select2.select2-container .select2-selection--single .select2-selection__arrow {
+            background: #f8f8f8;
+            border-left: 1px solid #ccc;
+            -webkit-border-radius: 0 0.375rem 0.375rem 0;
+            -moz-border-radius: 0 0.375rem 0.375rem 0;
+            border-radius: 0 0.375rem 0.375rem 0;
+            height: 41px;
+            width: 33px;
+        }
+
+        .select2.select2-container *:focus {
+            border-color: rgb(165 180 252);
+            box-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(rgb(199 210 254));
+        }
+        
+        .select2.select2-container .select2-selection--multiple {
+            height: auto;
+            min-height: 38px;
+        }
+
+        .select2.select2-container .select2-selection--multiple .select2-selection__rendered {
+            padding-top: 0.3rem;
+        }
+
+        .select2.select2-container.select2-container--open .select2-selection.select2-selection--multiple {
+            border-color: rgb(165 180 252);
+        }
+
+        .select2.select2-container .select2-selection--multiple .select2-selection__choice {
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            padding: 0 6px 0 22px;
+            height: 24px;
+            line-height: 24px;
+            font-size: 12px;
+            position: relative;
+        }
+
+        .select2.select2-container .select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 22px;
+            width: 22px;
+            margin-top: -0.15rem;
+            text-align: center;
+            color: rgb(236 72 153);
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -60,6 +136,7 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
     <script type="text/javascript">
         /* Sidebar - Side navigation menu on mobile/responsive mode */
@@ -96,6 +173,9 @@
             document.getElementById(modalID).getElementsByTagName("a")[0].href = '#';
         }
     </script>
+
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 
 </html>

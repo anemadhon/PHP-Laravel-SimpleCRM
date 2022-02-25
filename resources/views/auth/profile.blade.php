@@ -123,3 +123,12 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    $(document).ready(function() {
+        $('#skills').select2({
+            theme: "classic",
+            allowClear: false
+        });
+    });
+</script>

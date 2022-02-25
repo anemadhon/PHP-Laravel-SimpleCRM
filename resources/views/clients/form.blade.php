@@ -44,7 +44,7 @@
                             <div class="relative w-full mb-3">
                                 <x-label for="type" :value="__('Type')"/>
                                 <select name="type_id" id="type" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                    <option value="">Select Type</option>
+                                    <option></option>
                                     @foreach ($types as $type)
                                         <option value="{{ $type->id }}" {{ ($state === 'Update' && $client->type_id == $type->id) || old('type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
                                     @endforeach
@@ -66,3 +66,13 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    $(document).ready(function() {
+        $('#type').select2({
+            theme: "classic",
+            placeholder: "Select Type",
+            allowClear: false
+        });
+    });
+</script>

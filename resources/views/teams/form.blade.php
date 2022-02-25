@@ -29,7 +29,7 @@
                             <div class="relative w-full mb-3">
                                 <x-label for="pm" :value="__('Project Manager')"/>
                                 <select name="pm" id="pm" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                    <option value="">Select User</option>
+                                    <option></option>
                                     @foreach ($users_pm as $pm)
                                         <option value="{{ $pm->id }}" {{ old('pm') == $pm->id ? 'selected' : '' }}>{{ $pm->name }} - {{ $pm->role->name }}</option>
                                     @endforeach
@@ -40,7 +40,7 @@
                             <div class="relative w-full mb-3">
                                 <x-label for="dev" :value="__('Developer')"/>
                                 <select name="dev[]" id="dev" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required multiple>
-                                    <option value="">Select User</option>
+                                    <option></option>
                                     @foreach ($users_dev as $dev)
                                         <option value="{{ $dev->id }}" {{ in_array($dev->id, old('dev', [])) ? 'selected' : '' }}>{{ $dev->name }} - {{ $dev->role->name }}</option>
                                     @endforeach
@@ -51,7 +51,7 @@
                             <div class="relative w-full mb-3">
                                 <x-label for="qa" :value="__('Quality Assurance')"/>
                                 <select name="qa" id="qa" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                    <option value="">Select User</option>
+                                    <option></option>
                                     @foreach ($users_qa as $qa)
                                         <option value="{{ $qa->id }}" {{ old('qa') == $qa->id ? 'selected' : '' }}>{{ $qa->name }} - {{ $qa->role->name }}</option>
                                     @endforeach
@@ -73,3 +73,22 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    $(document).ready(function() {
+        $('#pm').select2({
+            theme: "classic",
+            placeholder: "Select User",
+            allowClear: false
+        });
+        $('#qa').select2({
+            theme: "classic",
+            placeholder: "Select User",
+            allowClear: false
+        });
+        $('#dev').select2({
+            theme: "classic",
+            allowClear: false
+        });
+    });
+</script>

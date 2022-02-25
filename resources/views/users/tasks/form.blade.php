@@ -52,7 +52,7 @@
                             <div class="relative w-full mb-3">
                                 <x-label for="level" :value="__('Level')"/>
                                 <select name="level_id" id="level" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                    <option value="">Select Level</option>
+                                    <option></option>
                                     @foreach ($levels as $level)
                                         <option value="{{ $level->id }}" {{ ($task->level_id == $level->id) || old('level_id') == $level->id ? 'selected' : '' }}>{{ $level->name }}</option>
                                     @endforeach
@@ -63,7 +63,7 @@
                             <div class="relative w-full mb-3">
                                 <x-label for="state" :value="__('State')"/>
                                 <select name="state_id" id="state" class="rounded-md w-full shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                    <option value="">Select State</option>
+                                    <option></option>
                                     @foreach ($states as $project_state)
                                         <option value="{{ $project_state->id }}" {{ ($task->state_id == $project_state->id) || old('state_id') == $project_state->id ? 'selected' : '' }}>{{ $project_state->name }}</option>
                                     @endforeach
@@ -85,3 +85,18 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    $(document).ready(function() {
+        $('#level').select2({
+            theme: "classic",
+            placeholder: "Select Level",
+            allowClear: false
+        });
+        $('#state').select2({
+            theme: "classic",
+            placeholder: "Select State",
+            allowClear: false
+        });
+    });
+</script>
