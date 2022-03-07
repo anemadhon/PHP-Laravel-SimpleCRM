@@ -6,6 +6,7 @@ use App\Models\Level;
 use App\Services\LogService;
 use App\Http\Requests\LevelRequest;
 use App\Http\Controllers\Controller;
+use App\Events\UserActivityProcessed;
 
 class LevelController extends Controller
 {

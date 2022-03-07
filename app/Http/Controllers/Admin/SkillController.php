@@ -6,6 +6,7 @@ use App\Models\Skill;
 use App\Services\LogService;
 use App\Http\Requests\SkillRequest;
 use App\Http\Controllers\Controller;
+use App\Events\UserActivityProcessed;
 
 class SkillController extends Controller
 {

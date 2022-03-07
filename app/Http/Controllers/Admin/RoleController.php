@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Services\LogService;
 use App\Http\Requests\RoleRequest;
 use App\Http\Controllers\Controller;
+use App\Events\UserActivityProcessed;
 
 class RoleController extends Controller
 {

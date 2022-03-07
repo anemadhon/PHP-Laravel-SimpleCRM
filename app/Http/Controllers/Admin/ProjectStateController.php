@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\ProjectState;
 use App\Services\LogService;
 use App\Http\Controllers\Controller;
+use App\Events\UserActivityProcessed;
 use App\Http\Requests\ProjectStateRequest;
 
 class ProjectStateController extends Controller
