@@ -26,6 +26,9 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::get('dashboard', \App\Http\Controllers\DashboardController::class)->name('dashboard');
 
+    Route::get('notifications', [\App\Http\Controllers\NotificationController::class, 'lists'])->name('notifications');
+    Route::put('notifications/{notification}', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
+
     Route::group([
         'prefix' => 'admin',
         'as' => 'admin.',

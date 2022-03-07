@@ -52,6 +52,19 @@
             <!-- Navigation -->
 
             <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+                @canany(['manage-apps', 'manage-department', 'manage-products'])
+                    <li class="items-center">
+                        <x-nav-link href="{{ route('notifications') }}" :active="request()->routeIs('notifications')">
+                            <x-slot name="icon">
+                                <i class="fas fa-bell mr-2 text-sm opacity-75"></i>
+                            </x-slot>
+                            {{ __('Notification') }}
+                        </x-nav-link>
+                    </li>
+                @endcanany
+
+                <x-divider class="mt-1 mb-2" />
+
                 <li class="items-center">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         <x-slot name="icon">
