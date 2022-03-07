@@ -8,6 +8,7 @@ use App\Services\LogService;
 use App\Services\ProjectService;
 use App\Http\Requests\TeamRequest;
 use Illuminate\Support\Facades\Gate;
+use App\Events\UserActivityProcessed;
 
 class ProjectTeamController extends Controller
 {
@@ -95,6 +96,8 @@ class ProjectTeamController extends Controller
         $pm = ['pm_id' => $request->safe()->only('pm')['pm']];
 
         $project->users()->syncWithPivotValues($teams, $pm);
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Project - Team', 'Add New Data', $project->users);
 
         $log = [
             'method' => 'App\Http\Controllers\ProjectTeamController@store',

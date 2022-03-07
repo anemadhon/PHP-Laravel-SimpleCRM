@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserActivityProcessed;
 use App\Models\Client;
 use App\Models\ClientType;
 use App\Services\LogService;
@@ -91,7 +92,9 @@ class ClientController extends Controller
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
-        Client::create($request->validated());
+        $client = Client::create($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Client', 'Add New Data', $client);
 
         $log = [
             'method' => 'App\Http\Controllers\ClientController@store',
@@ -173,6 +176,8 @@ class ClientController extends Controller
         }
         
         $client->update($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Client', 'Modify Existing Data', $client);
 
         $log = [
             'method' => 'App\Http\Controllers\ClientController@update',

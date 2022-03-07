@@ -10,6 +10,7 @@ use App\Models\ProjectState;
 use App\Services\LogService;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Gate;
+use App\Events\UserActivityProcessed;
 
 class ProjectTaskController extends Controller
 {
@@ -90,6 +91,8 @@ class ProjectTaskController extends Controller
         }
 
         $project->tasks()->create($request->validated() + ['created_by' => auth()->id()]);
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Project - Task', 'Add New Data', $project->tasks);
 
         $log = [
             'method' => 'App\Http\Controllers\ProjectTaskController@store',
@@ -179,6 +182,8 @@ class ProjectTaskController extends Controller
         }
 
         $task->update($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Project - Task', 'Modify Existing Data', $task);
 
         $log = [
             'method' => 'App\Http\Controllers\ProjectTaskController@update',

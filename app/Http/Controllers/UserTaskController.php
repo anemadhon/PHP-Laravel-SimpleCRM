@@ -9,6 +9,7 @@ use App\Models\ProjectState;
 use App\Services\LogService;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Gate;
+use App\Events\UserActivityProcessed;
 
 class UserTaskController extends Controller
 {
@@ -108,6 +109,8 @@ class UserTaskController extends Controller
         }
         
         $task->update($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'User - Task', 'Modify Existing Data', $task);
 
         $log = [
             'method' => 'App\Http\Controllers\UserTaskController@update',

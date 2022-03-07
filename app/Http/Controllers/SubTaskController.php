@@ -9,6 +9,7 @@ use App\Models\SubTask;
 use App\Models\ProjectState;
 use App\Services\LogService;
 use Illuminate\Support\Facades\Gate;
+use App\Events\UserActivityProcessed;
 use App\Http\Requests\SubTaskRequest;
 
 class SubTaskController extends Controller
@@ -88,6 +89,8 @@ class SubTaskController extends Controller
         }
 
         $task->subs()->create($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Sub Task', 'Add New Data', $task->subs);
 
         $log = [
             'method' => 'App\Http\Controllers\SubTaskController@store',
@@ -176,6 +179,8 @@ class SubTaskController extends Controller
         }
 
         $sub->update($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Sub Task', 'Modify Existing Data', $sub);
 
         $log = [
             'method' => 'App\Http\Controllers\SubTaskController@update',

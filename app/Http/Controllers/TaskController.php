@@ -11,6 +11,7 @@ use App\Services\LogService;
 use App\Services\TaskService;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Gate;
+use App\Events\UserActivityProcessed;
 
 class TaskController extends Controller
 {
@@ -88,7 +89,9 @@ class TaskController extends Controller
             abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
-        Task::create($request->validated() + ['created_by' => auth()->id()]);
+        $task = Task::create($request->validated() + ['created_by' => auth()->id()]);
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Task', 'Add New Data', $task);
 
         $log = [
             'method' => 'App\Http\Controllers\TaskController@store',
@@ -176,6 +179,8 @@ class TaskController extends Controller
         }
 
         $task->update($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Task', 'Modify Existing Data', $task);
 
         $log = [
             'method' => 'App\Http\Controllers\TaskController@update',

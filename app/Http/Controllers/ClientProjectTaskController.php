@@ -11,6 +11,7 @@ use App\Models\ProjectState;
 use App\Services\LogService;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Gate;
+use App\Events\UserActivityProcessed;
 
 class ClientProjectTaskController extends Controller
 {
@@ -113,6 +114,8 @@ class ClientProjectTaskController extends Controller
         }
         
         $task->update($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Client - Task', 'Modify Existing Data', $task);
 
         $log = [
             'method' => 'App\Http\Controllers\ClientProjectTaskController@update',

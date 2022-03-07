@@ -11,6 +11,7 @@ use App\Services\LogService;
 use App\Services\ProjectService;
 use App\Models\ProjectAttachment;
 use Illuminate\Support\Facades\Gate;
+use App\Events\UserActivityProcessed;
 use App\Http\Requests\ProjectRequest;
 
 class ClientProjectController extends Controller
@@ -111,6 +112,8 @@ class ClientProjectController extends Controller
             $attachments = (new ProjectService())->formatAttachmentsToLogs($request->file('attachment'), $project->slug);
         }
 
+        UserActivityProcessed::dispatch(auth()->user(), 'Client - Project', 'Add New Data', $project);
+
         $log = [
             'method' => 'App\Http\Controllers\ClientProjectController@store',
             'action' => 'Client - Project',
@@ -197,6 +200,8 @@ class ClientProjectController extends Controller
         
         $project->update($request->validated());
 
+        $attachments = [];
+
         if ($request->hasFile('attachment')) {
             (new ProjectService())->attachment($request->file('attachment'), $project, $request->flag);
             
@@ -209,6 +214,8 @@ class ClientProjectController extends Controller
                 $user->pivot->save();
             }
         }
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Client - Project', 'Modify Existing Data', $project);
 
         $log = [
             'method' => 'App\Http\Controllers\ClientProjectController@update',
