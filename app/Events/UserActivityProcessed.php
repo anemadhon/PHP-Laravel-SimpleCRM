@@ -20,10 +20,11 @@ class UserActivityProcessed
      *
      * @return void
      */
-    public function __construct(User $user, string $modul, object $data)
+    public function __construct(User $user, string $modul, string $activity, object $data)
     {
         $this->user = $user;
         $this->modul = $modul;
+        $this->activity = $activity;
         $this->data = $data;
     }
 

@@ -17,10 +17,11 @@ class UserActivity extends Notification
      *
      * @return void
      */
-    public function __construct(User $user, string $modul, object $data)
+    public function __construct(User $user, string $modul, string $activity, object $data)
     {
         $this->user = $user;
         $this->modul = $modul;
+        $this->activity = $activity;
         $this->data = $data;
     }
 
@@ -47,6 +48,7 @@ class UserActivity extends Notification
             'name' => $this->user->name,
             'role' => $this->user->role->name,
             'modul' => $this->modul,
+            'activity' => $this->activity,
             'data' => $this->data
         ];
     }

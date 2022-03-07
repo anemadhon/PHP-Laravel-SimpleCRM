@@ -21,6 +21,6 @@ class SendUserActivityNotification
     {
         $admin = User::where('role_id', User::IS_ADMIN)->first();
 
-        Notification::send($admin, new UserActivity($event->user, $event->modul, $event->data));
+        Notification::send($admin, new UserActivity($event->user, $event->modul, $event->activity, $event->data));
     }
 }
