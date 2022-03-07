@@ -41,7 +41,9 @@ class ProjectStateController extends Controller
      */
     public function store(ProjectStateRequest $request)
     {
-        ProjectState::create($request->validated());
+        $state = ProjectState::create($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Project State - Admin', 'Add New Data', $state);
 
         (new LogService())->store([
             'method' => 'App\Http\Controllers\Admin\ProjectStateController@store',
@@ -83,6 +85,8 @@ class ProjectStateController extends Controller
     public function update(ProjectStateRequest $request, ProjectState $state)
     {
         $state->update($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Project State - Admin', 'Modify Existing Data', $state);
 
         (new LogService())->store([
             'method' => 'App\Http\Controllers\Admin\ProjectStateController@update',

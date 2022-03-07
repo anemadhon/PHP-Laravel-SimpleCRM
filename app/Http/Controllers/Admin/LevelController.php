@@ -41,7 +41,9 @@ class LevelController extends Controller
      */
     public function store(LevelRequest $request)
     {
-        Level::create($request->validated());
+        $level = Level::create($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Level - Admin', 'Add New Data', $level);
 
         (new LogService())->store([
             'method' => 'App\Http\Controllers\Admin\LevelController@store',
@@ -83,6 +85,8 @@ class LevelController extends Controller
     public function update(LevelRequest $request, Level $level)
     {
         $level->update($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Level - Admin', 'Modify Existing Data', $level);
 
         (new LogService())->store([
             'method' => 'App\Http\Controllers\Admin\LevelController@update',

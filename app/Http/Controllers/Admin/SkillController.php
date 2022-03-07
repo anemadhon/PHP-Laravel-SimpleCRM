@@ -41,7 +41,9 @@ class SkillController extends Controller
      */
     public function store(SkillRequest $request)
     {
-        Skill::create($request->validated());
+        $skill = Skill::create($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Skill - Admin', 'Add New Data', $skill);
 
         (new LogService())->store([
             'method' => 'App\Http\Controllers\Admin\SkillController@store',
@@ -83,6 +85,8 @@ class SkillController extends Controller
     public function update(SkillRequest $request, Skill $skill)
     {
         $skill->update($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Skill - Admin', 'Modify Existing Data', $skill);
 
         (new LogService())->store([
             'method' => 'App\Http\Controllers\Admin\SkillController@update',

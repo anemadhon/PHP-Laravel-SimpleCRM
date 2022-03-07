@@ -41,7 +41,9 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request)
     {
-        Role::create($request->validated());
+        $role = Role::create($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Role - Admin', 'Add New Data', $role);
 
         (new LogService())->store([
             'method' => 'App\Http\Controllers\Admin\RoleController@store',
@@ -83,6 +85,8 @@ class RoleController extends Controller
     public function update(RoleRequest $request, Role $role)
     {
         $role->create($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Role - Admin', 'Modify Existing Data', $role);
 
         (new LogService())->store([
             'method' => 'App\Http\Controllers\Admin\RoleController@update',

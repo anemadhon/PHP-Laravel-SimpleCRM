@@ -41,7 +41,9 @@ class ClientTypeController extends Controller
      */
     public function store(ClientTypeRequest $request)
     {
-        ClientType::create($request->validated());
+        $type = ClientType::create($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Client Type - Admin', 'Add New Data', $type);
 
         (new LogService())->store([
             'method' => 'App\Http\Controllers\Admin\ClientTypeController@store',
@@ -83,6 +85,8 @@ class ClientTypeController extends Controller
     public function update(ClientTypeRequest $request, ClientType $type)
     {
         $type->update($request->validated());
+
+        UserActivityProcessed::dispatch(auth()->user(), 'Client Type - Admin', 'Modify Existing Data', $type);
 
         (new LogService())->store([
             'method' => 'App\Http\Controllers\Admin\ClientTypeController@update',
