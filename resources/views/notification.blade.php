@@ -55,15 +55,13 @@
                                     {{ $notification->created_at->diffForHumans() }}
                                 </td>
                                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center">
-                                    {{-- <a href="{{ route('notifications.read', ['notification' => $notification]) }}"> --}}
-                                        <form action="{{ route('notifications.read', ['notification' => $notification]) }}" method="post">
-                                            @csrf
-                                            @method('put')
-                                            <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="submit">
-                                                <i class="fas fa-check"></i> {{ __('Mark as Read') }}
-                                            </button>
-                                        </form>
-                                    {{-- </a> --}}
+                                    <form action="{{ route('notifications.read', ['notification' => $notification]) }}" method="post">
+                                        @csrf
+                                        @method('put')
+                                        <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150" type="submit">
+                                            <i class="fas fa-check"></i> {{ __('Mark as Read') }}
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty

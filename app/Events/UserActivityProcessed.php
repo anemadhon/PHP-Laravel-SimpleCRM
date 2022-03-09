@@ -11,9 +11,14 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserActivityProcessed
+class UserActivityProcessed implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public $user;
+    public $modul;
+    public $activity;
+    public $data;
 
     /**
      * Create a new event instance.
@@ -35,6 +40,6 @@ class UserActivityProcessed
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('useractivity');
     }
 }
